@@ -1,0 +1,2064 @@
+{
+  "summary": {
+    "label": "baseline 600w vector",
+    "config": {
+      "index_dir": "/home/nijadasurname/Documents/mystuff/QAwithRAG/index",
+      "embed_model": "BAAI/bge-small-en-v1.5",
+      "rerank_model": "cross-encoder/ms-marco-MiniLM-L-6-v2",
+      "llm_model": "claude-haiku-5-5",
+      "llm_effort": "low",
+      "chunk_words": "600",
+      "overlap_words": "100",
+      "retrieval": "vector",
+      "top_k": "5",
+      "rerank_candidates": "20",
+      "usage_log": "None"
+    },
+    "questions": 47,
+    "answerable": 41,
+    "correct": 0.8536585365853658,
+    "correct_or_partial": 0.9512195121951219,
+    "false_refusals": 0.04878048780487805,
+    "cited_evidence": 0.7317073170731707,
+    "retrieved_evidence": 0.8048780487804879,
+    "grounded": 0.7692307692307693,
+    "idk_when_unanswerable": 1.0,
+    "avg_input_tokens": 7946.170212765957,
+    "avg_output_tokens": 531.4255319148937,
+    "cost_per_1000_usd": 1.0603297872340425,
+    "p50_ms": 3171.3,
+    "p95_ms": 5114.2,
+    "avg_retrieval_ms": 31.080851063829787,
+    "avg_llm_ms": 2964.244680851064,
+    "judge_tokens": {
+      "input_tokens": 46453,
+      "output_tokens": 6570
+    }
+  },
+  "results": [
+    {
+      "id": "q01",
+      "question": "What's the longest a Temporary Access Pass can be valid for?",
+      "answer": "A TAP's lifetime can be configured between 10 minutes and 43,200 minutes (30 days). The policy's default maximum lifetime is 8 hours.",
+      "evidence": "10 – 43,200 Minutes (30 days)",
+      "response": "The longest a Temporary Access Pass can be valid is 30 days, but only if the tenant's policy is changed to allow it. The settings table gives the allowed range for the maximum lifetime as 10 – 43,200 Minutes (30 days)[1]. The out-of-the-box maximum is much shorter, at 8 hours[1].",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Configure a Temporary Access Pass in Microsoft Entra ID to register passwordless authentication methods",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-temporary-access-pass",
+          "section": "Enable the Temporary Access Pass policy",
+          "page": null,
+          "chunk_id": "identity/authentication/howto-authentication-temporary-access-pass#0",
+          "quotes": [
+            "| Setting | Default values | Allowed values | Comments |\n|---|---|---|---|\n| Minimum lifetime | 1 hour | 10 – 43,200 Minutes (30 days) | Minimum number of minutes that the TAP is valid. |\n| Maximum lifetime | 8 hours | 10 – 43,200 Minutes (30 days) | Maximum number of minutes that the TAP is valid. |\n| Default lifetime | 1 hour | 10 – 43,200 Minutes (30 days) | Individual passes within the minimum and maximum lifetime configured by the policy can override default value. |\n| One-time use | False | True/False | When the policy is set to false, a TAP in the tenant can be used either once or more than once during its validity (maximum lifetime). If you enforce one-time use in the TAP policy, all passes created in the tenant are one-time use. |\n| Length | 8 | 8-48 characters | Defines the length of the passcode. |"
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/howto-authentication-temporary-access-pass#0",
+        "identity/authentication/howto-authentication-temporary-access-pass#2",
+        "identity/authentication/howto-authentication-temporary-access-pass#4",
+        "identity/conditional-access/concept-continuous-access-evaluation#6",
+        "identity/conditional-access/concept-continuous-access-evaluation#2"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7992,
+      "output_tokens": 458,
+      "cost_usd": 0.0010282,
+      "retrieval_ms": 35.7,
+      "llm_ms": 3036.0,
+      "total_ms": 3073.4,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the maximum is 30 days (43,200 minutes) when policy is configured, and the default maximum is 8 hours, matching the reference. All claims are supported by the cited table: Maximum lifetime default 8 hours, allowed 10 – 43,200 minutes (30 days). The claim 'only if the tenant's policy is changed' is a reasonable inference from default vs allowed values.",
+      "grounded": true
+    },
+    {
+      "id": "q02",
+      "question": "How many wrong password attempts does it take before smart lockout locks an account in a normal commercial tenant?",
+      "answer": "10 failed attempts (the default lockout threshold in Azure Public and 21Vianet tenants).",
+      "evidence": [
+        "10 failed attempts in Azure Public",
+        "The default is 10 for Azure Public tenants"
+      ],
+      "response": "Under default settings, a commercial (Azure Public) tenant triggers a lockout after 10 incorrect password entries. Azure US Government tenants use three failed attempts instead.[1]\n\nRepeated bad passwords don't count the same way. Smart lockout tracks the last three bad password hashes, so entering the same bad password multiple times doesn't increment the lockout counter.[1]\n\nThe exact count can differ slightly in practice, because the total number of failed sign-in attempts allowed before an account is locked out will vary slightly from the configured lockout threshold.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Prevent Attacks Using Smart Lockout",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/howto-password-smart-lockout",
+          "section": "How smart lockout works",
+          "page": null,
+          "chunk_id": "identity/authentication/howto-password-smart-lockout#0",
+          "quotes": [
+            "- 10 failed attempts in Azure Public and Microsoft Azure operated by 21Vianet tenants\n- Three failed attempts for Azure US Government tenants",
+            "Smart lockout tracks the last three bad password hashes to avoid incrementing the lockout counter for the same password. If someone enters the same bad password multiple times, this behavior doesn't cause the account to lock out.",
+            "- Lockout state across Microsoft Entra data centers is synchronized. However, the total number of failed sign-in attempts allowed before an account is locked out will vary slightly from the configured lockout threshold. Once an account is locked out, it's locked out everywhere across all Microsoft Entra data centers.\n- Smart Lockout uses familiar location versus unfamiliar location to differentiate between a bad actor and the genuine user. Both unfamiliar and familiar locations have separate lockout counters."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/howto-password-smart-lockout#0",
+        "identity/authentication/howto-password-smart-lockout#2",
+        "identity/authentication/howto-password-smart-lockout#1",
+        "identity/authentication/concept-sspr-policy#1",
+        "identity/authentication/troubleshoot-sspr#2"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6970,
+      "output_tokens": 652,
+      "cost_usd": 0.001023,
+      "retrieval_ms": 37.3,
+      "llm_ms": 3634.4,
+      "total_ms": 3671.9,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states 10 failed attempts for a commercial (Azure Public) tenant, matching the reference. Extra details (US Government uses three, last three bad password hashes, slight variance in the count) are all supported by the source passage and don't contradict the reference. Every claim is backed by the cited passage.",
+      "grounded": true
+    },
+    {
+      "id": "q03",
+      "question": "A user got locked out by smart lockout. If they reset their password with 'I forgot my password', do they still have to wait for the lockout to run out?",
+      "answer": "No. Choosing 'I forgot my password' in SSPR resets the lockout duration to 0 seconds. With 'I know my password' the lockout timer keeps running.",
+      "evidence": "the duration of the lockout is reset to 0 seconds",
+      "response": "No, the user doesn't have to wait. Choosing the forgot-password option in self-service password reset sets the lockout length back to zero, so the user can sign in right away. If the user chooses I forgot my password during SSPR, the duration of the lockout is reset to 0 seconds, so the user doesn't need to wait for the lockout duration to expire.[1]\n\nIf the user instead picks \"I know my password,\" the timer keeps running. The user then needs to change their password or wait for the lockout to expire.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Prevent Attacks Using Smart Lockout",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/howto-password-smart-lockout",
+          "section": "How smart lockout works",
+          "page": null,
+          "chunk_id": "identity/authentication/howto-password-smart-lockout#0",
+          "quotes": [
+            "* After an account lockout, the user can initiate self-service password reset (SSPR) to sign in again. SSPR lets users reset or change their own passwords without help desk or administrator assistance. If the user chooses I forgot my password during SSPR, the duration of the lockout is reset to 0 seconds, so the user doesn't need to wait for the lockout duration to expire. If the user chooses I know my password during SSPR, the lockout timer continues and the duration of the lockout isn't reset. In that case, to regain access the user should either change their password or wait until the configured lockout duration expires."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/howto-password-smart-lockout#2",
+        "identity/authentication/howto-password-smart-lockout#0",
+        "identity/authentication/concept-sspr-policy#1",
+        "identity/authentication/howto-password-smart-lockout#1",
+        "identity/authentication/concept-sspr-writeback#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7509,
+      "output_tokens": 575,
+      "cost_usd": 0.0010384,
+      "retrieval_ms": 51.9,
+      "llm_ms": 3337.6,
+      "total_ms": 3389.7,
+      "verdict": "correct",
+      "judge_reasoning": "The answer matches the reference: 'I forgot my password' resets lockout to 0 seconds, so no waiting; 'I know my password' keeps the timer running. The extra claims (user needs to change password or wait) are in the source. The phrase 'so the user can sign in right away' is a mild inference but consistent with the passage (no need to wait).",
+      "grounded": true
+    },
+    {
+      "id": "q04",
+      "question": "Do passwords of users synced with password hash sync expire in Entra ID?",
+      "answer": "Not by default: for password hash synchronized users the Entra ID password expiration is set to never expire, so they can still sign in to Entra ID with an expired on-premises password unless the cloud password policy is enforced for synced users.",
+      "evidence": "the Microsoft Entra ID password expiration is set to never expire",
+      "response": "By default, passwords for password hash sync users don't expire in Entra ID, though older tenants may differ. Entra ID's expiration for these users is set to never expire, so even after the on-premises AD DS password expires, users can still sign in to Microsoft Entra ID using the expired password.[1] Previously, the default was 90 days. However, for tenants created around spring 2021 or later, the default value is never expire.[2]\n\nKey points for a helpdesk agent:\n\n- **Where the password is checked matters.** When signing in to a domain-joined client device, authentication occurs in on-premises AD DS, so the on-premises AD DS password expiration applies. When signing in to the Azure portal or Microsoft 365, the Microsoft Entra ID password expiration policy applies.[1]\n- **To enforce expiration in Entra ID,** enable the CloudPasswordPolicyForPasswordSyncedUsersEnabled option at the tenant level.[2] Run $OnPremSync = Get-MgDirectoryOnPremiseSynchronization[2] and then set $OnPremSync.Features.CloudPasswordPolicyForPasswordSyncedUsersEnabled = $true[2], then apply it with Update-MgDirectoryOnPremiseSynchronization. Users changing passwords from Entra ID also need password writeback enabled in Microsoft Entra Connect.[2]\n- **To check the current setting,** there's no simple way to check this in the Azure portal. You must calculate it using values obtained from PowerShell.[2]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Password Policy Overview and Frequently Asked Questions",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-password-policy-overview-frequently-asked-questions",
+          "section": "Policies evaluated during authentication (password expiration) > Synced users with password hash synchronization",
+          "page": null,
+          "chunk_id": "identity/authentication/tutorial-password-policy-overview-frequently-asked-questions#1",
+          "quotes": [
+            "When the on-premises AD DS password expires, the user is prompted to change the password during the next on-premises sign-in.\nAfter the password changes, Microsoft Entra ID synchronizes it. The user can then sign in with the new password.\nBy default, for password hash–synchronized users, the Microsoft Entra ID password expiration is set to never expire.\nAs a result, even after the on-premises AD DS password expires, users can still sign in to Microsoft Entra ID using the expired password.\nIf you don't want users to sign in to Microsoft Entra ID with an expired on-premises password, enable the\n`CloudPasswordPolicyForPasswordSyncedUsersEnabled` option so that Microsoft Entra ID doesn't treat passwords as non-expiring.",
+            "- When signing in to a domain-joined client device, authentication occurs in on-premises AD DS, so the on-premises AD DS password expiration applies.\n- When signing in to the Azure portal or Microsoft 365, the Microsoft Entra ID password expiration policy applies."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Password Policy Overview and Frequently Asked Questions",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-password-policy-overview-frequently-asked-questions",
+          "section": "FAQ > In a password hash synchronization environment, users can still access Microsoft Entra ID with their old password after the on-premises AD DS password has expired. Can the Microsoft Entra ID password expiration for synced users be changed from \"never expire\"?",
+          "page": null,
+          "chunk_id": "identity/authentication/tutorial-password-policy-overview-frequently-asked-questions#2",
+          "quotes": [
+            "Previously, the default was 90 days. However, for tenants created around spring 2021 or later, the default value is never expire.\nAs a result, some tenants have a 90-day expiration, while others are configured with no expiration by default.",
+            "Yes. You can configure this behavior by enabling the CloudPasswordPolicyForPasswordSyncedUsersEnabled option at the tenant level.\nTo allow users to change their passwords from Microsoft Entra ID, password writeback must also be enabled in Microsoft Entra Connect.\nBy running the following commands, you can enable password expiration for synced users in Microsoft Entra ID.",
+            "$OnPremSync = Get-MgDirectoryOnPremiseSynchronization\n$OnPremSync.Features.CloudPasswordPolicyForPasswordSyncedUsersEnabled = $true",
+            "There's no simple way to check this in the Azure portal.\nYou must calculate it using values obtained from PowerShell.\nTo check the tenant password expiration policy:"
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/tutorial-password-policy-overview-frequently-asked-questions#2",
+        "identity/authentication/tutorial-password-policy-overview-frequently-asked-questions#1",
+        "identity/authentication/tutorial-password-policy-overview-frequently-asked-questions#0",
+        "identity/authentication/concept-sspr-policy#1",
+        "identity/authentication/how-to-plan-password-scramble-phishing-resistant-passwordless-authentication#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 9289,
+      "output_tokens": 1197,
+      "cost_usd": 0.0015274000000000002,
+      "retrieval_ms": 30.4,
+      "llm_ms": 5583.3,
+      "total_ms": 5613.9,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the key facts: by default no expiration for password hash sync users in Entra ID, users can sign in with an expired on-premises password, and enabling CloudPasswordPolicyForPasswordSyncedUsersEnabled enforces the cloud policy. This matches the reference. Grounding: nearly every claim is in the sources. The one gap is the Update-MgDirectoryOnPremiseSynchronization command, which is not in passage 2. The passage ends the command list after setting the feature, so the answer adds an unsupported claim. The 'older tenants may differ' point is supported by source 2.",
+      "grounded": false
+    },
+    {
+      "id": "q05",
+      "question": "Which password reset policy applies to admin accounts, and can admins use security questions to reset?",
+      "answer": "Administrators get a strong default two-gate policy that requires two pieces of authentication data (e.g. email, authenticator app, phone). It prohibits security questions and can't be changed.",
+      "evidence": "The two-gate policy requires two pieces of authentication data",
+      "response": "Admin accounts use a fixed, stronger reset policy than regular users. By default, administrator accounts are enabled for self-service password reset, and a strong default *two-gate* password reset policy is enforced.[1] That policy can't be changed[1], so test resets with a standard user account rather than an admin account.\n\nAdmins can't use security questions for this. Security questions are not offered as a verification method for admin accounts. Administrator accounts can't use security questions as verification method with SSPR.[2] The two-gate policy also prohibits security questions[1].\n\nTwo related points for your agents:\n- The two-gate policy applies to a defined list of admin roles, which includes Global Administrator, Helpdesk Administrator, and User Administrator. The following administrator roles are affected[3] are listed in the reference table.\n- Security questions are being retired for SSPR. Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027.[2]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Self-service password reset policies",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-policy",
+          "section": "Risk-based password reset policy limitations",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-sspr-policy#2",
+          "quotes": [
+            "By default, administrator accounts are enabled for self-service password reset, and a strong default *two-gate* password reset policy is enforced. This policy might be different from the one you defined for your users, and this policy can't be changed. You should always test password reset functionality as a user without any Microsoft Entra administrator roles assigned.",
+            "The two-gate policy requires two pieces of authentication data, such as an email address, authenticator app, or a phone number, and it prohibits security questions. Office and mobile voice calls are also prohibited for trial or free versions of Microsoft Entra ID."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Security questions authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-security-questions",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-security-questions#0",
+          "quotes": [
+            "Security questions aren't used as an authentication method during a sign-in event. Instead, security questions can be used during the self-service password reset (SSPR) process to confirm who you are. Administrator accounts can't use security questions as verification method with SSPR.",
+            "Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027. After that date, users will no longer be able to reset passwords using security questions. Ensure users are set up with supported authentication methods in the Authentication methods policy.\nThis feature is being deprecated due to security risks and low reliability. Security questions are often guessable or susceptible to social engineering, increasing the risk of account takeover during SSPR. Stronger verification methods improve security and reduce reset failures and support escalations.\nPrepare in advance to avoid user lockouts, helpdesk escalations, and failed password reset experiences once enforcement begins in March 2027."
+          ]
+        },
+        {
+          "n": 3,
+          "title": "Self-service password reset policies",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-policy",
+          "section": "Administrator reset policy differences",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-sspr-policy#3",
+          "quotes": [
+            "* The following administrator roles are affected:| Roles A–D | Roles D–N | Roles O–Y |\n|---|---|---|\n| AdHoc License Administrator | Dynamics 365 Administrator | Office Apps Administrator |\n| Application Administrator | Dynamics 365 Business Central Administrator | Organizational Branding Administrator |\n| Application Proxy Service Administrator | Edge Administrator | Partner Tier1 Support |\n| Attack Simulation Administrator | Email Verified User Creator | Partner Tier2 Support |\n| Attribute Assignment Administrator | Exchange Administrator | Password Administrator |\n| Attribute Definition Administrator | Exchange Recipient Administrator | Permissions Management Administrator |\n| Attribute Log Administrator | External ID User Flow Administrator | Power BI Service Administrator |\n| Authentication Administrator | External ID User Flow Attribute Administrator | Power Platform Administrator |\n| Authentication Extensibility Administrator | External Identity Provider Administrator | Printer Administrator |\n| Authentication Policy Administrator | Global Administrator | Privileged Authentication Administrator |\n| Azure DevOps Administrator | Global Secure Access Administrator | Privileged Role Administrator |\n| Azure Information Protection Administrator | Groups Administrator | Search Administrator |\n| B2C IEF Keyset Administrator | Helpdesk Administrator | Security Administrator |\n| B2C IEF Policy Administrator | Hybrid Identity Administrator | Service Support Administrator |\n| Billing Administrator | Identity Governance Administrator | SharePoint Administrator |\n| Cloud App Security Administrator | Insights Administrator | Skype for Business Administrator |\n| Cloud Device Administrator | Intune Administrator | Teams Administrator |\n| Compliance Administrator | Knowledge Administrator | Teams Communications Administrator |\n| Compliance Data Administrator | License Administrator | Teams Devices Administrator |\n| Conditional Access Administrator | Lifecycle Workflows Administrator | User Administrator |\n| Customer Lockbox Access Approver | Mailbox Administrator | Virtual Visits Administrator |\n| Desktop Analytics Administrator | Microsoft Entra Joined Device Local Administrator | Viva Goals Administrator |\n| Device Administrators | Microsoft Hardware Warranty Administrator | Viva Pulse Administrator |\n| Directory Synchronization Accounts | Microsoft 365 Migration Administrator | Windows365 Administrator |\n| Directory Writers | Modern Commerce Administrator | Windows Update Deployment Administrator |\n| Domain Name Administrator | Network Administrator | Yammer Administrator |"
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-authentication-security-questions#0",
+        "identity/authentication/concept-sspr-policy#4",
+        "identity/authentication/concept-sspr-policy#2",
+        "identity/authentication/concept-sspr-policy#3",
+        "identity/authentication/troubleshoot-sspr#4"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7496,
+      "output_tokens": 640,
+      "cost_usd": 0.0010696,
+      "retrieval_ms": 38.8,
+      "llm_ms": 3132.3,
+      "total_ms": 3171.3,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the strong default two-gate policy, that it can't be changed, and that it prohibits security questions, matching the reference. It omits the 'two pieces of authentication data' detail, but that is minor. Every claim is supported by the cited passages: source 1 covers the policy, immutability and prohibition of security questions, source 2 covers admins and security questions and the 2027 retirement, and source 3 lists Global, Helpdesk and User Administrator. The statement that the policy applies to a defined list of roles is supported by source 3's 'affected' list. The answer is correct and grounded.",
+      "grounded": true
+    },
+    {
+      "id": "q06",
+      "question": "We disabled self-service password reset for administrators. How long before that change applies?",
+      "answer": "Up to 60 minutes (the change is made by setting AllowedToUseSspr to false on the tenant authorization policy).",
+      "evidence": "can take up to 60 minutes to take effect",
+      "response": "Plan for a delay of up to an hour. Policy changes to enable or disable SSPR for administrator accounts can take up to 60 minutes to take effect.[1]\n\nIf admins are also in scope of the user password reset policy, they may still see registration prompts after you disable SSPR for them. The documentation advises that to avoid this experience, explicitly exclude administrators from the password reset policy for users when the password reset policy for administrators is disabled.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Self-service password reset policies",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-policy",
+          "section": "Administrator reset policy differences",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-sspr-policy#4",
+          "quotes": [
+            "You can disable the use of SSPR for administrator accounts by setting the value of the `AllowedToUseSspr` property on the tenant authorization policy to `false`. Policy changes to enable or disable SSPR for administrator accounts can take up to 60 minutes to take effect.",
+            "When the password reset policy for administrators is disabled, administrators can't reset their passwords via SSPR, even if they are in scope of the password reset policy for users. If SSPR registration is enabled and administrators are included in the password reset policy for users, they're still prompted to register but see a message indicating they can't register any methods. To avoid this experience, explicitly exclude administrators from the password reset policy for users when the password reset policy for administrators is disabled."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-sspr-policy#4",
+        "identity/authentication/concept-sspr-deploy#3",
+        "identity/authentication/troubleshoot-sspr-writeback#8",
+        "identity/authentication/troubleshoot-sspr-writeback#11",
+        "identity/authentication/howto-sspr-customization#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8585,
+      "output_tokens": 516,
+      "cost_usd": 0.0011165,
+      "retrieval_ms": 22.1,
+      "llm_ms": 3150.4,
+      "total_ms": 3172.7,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states up to 60 minutes, matching the key fact in the reference. It omits the AllowedToUseSspr detail, but that is parenthetical and not the key answer. The extra claim about registration prompts and excluding administrators from the user policy is supported by the passage. All claims are grounded in source 1.",
+      "grounded": true
+    },
+    {
+      "id": "q07",
+      "question": "By default, how often are users asked to sign in again?",
+      "answer": "The default sign-in frequency is a rolling window of 90 days.",
+      "evidence": "rolling window of 90 days",
+      "response": "By default, Microsoft Entra ID uses a 90-day rolling window for sign-in frequency. The Microsoft Entra ID default configuration for user sign-in frequency is a rolling window of 90 days.[1]\n\nWithin that window, users aren't asked for credentials again as long as their session's security posture hasn't changed. The Microsoft Entra ID default configuration is: don't ask users to provide their credentials if the security posture of their sessions hasn't changed.[1]\n\nA session can end before the window expires. Any IT policy violation revokes the session. Examples include a password change, a noncompliant device, or an account being disabled.[1]\n\nThe results don't say how often a user is prompted under a custom Conditional Access sign-in frequency policy.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Conditional Access adaptive session lifetime policies",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-session-lifetime",
+          "section": "User sign-in frequency",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-session-lifetime#0",
+          "quotes": [
+            "The Microsoft Entra ID default configuration for user sign-in frequency is a rolling window of 90 days. It might seem sensible to ask users for credentials often, but this approach can backfire. Users who habitually enter credentials without thinking might unintentionally provide them to malicious prompts.",
+            "Not asking a user to sign back in might seem alarming, but any IT policy violation revokes the session. Examples include a password change, a noncompliant device, or an account being disabled. You can also explicitly revoke users’ sessions using Microsoft Graph PowerShell. The Microsoft Entra ID default configuration is: don’t ask users to provide their credentials if the security posture of their sessions hasn’t changed."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/concept-session-lifetime#2",
+        "identity/conditional-access/concept-session-lifetime#0",
+        "identity/conditional-access/concept-session-lifetime#1",
+        "identity/authentication/concept-sspr-deploy#3",
+        "identity/authentication/howto-authentication-methods-activity#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8052,
+      "output_tokens": 771,
+      "cost_usd": 0.0011907,
+      "retrieval_ms": 36.0,
+      "llm_ms": 3751.4,
+      "total_ms": 3787.5,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the default is a rolling 90-day window, matching the reference. The additional claims (no re-prompt if security posture unchanged; policy violations such as password change, noncompliant device, or disabled account revoke the session) are all in source 1. The closing remark that the results don't cover custom Conditional Access policies is a statement about the passages, and it is accurate.",
+      "grounded": true
+    },
+    {
+      "id": "q08",
+      "question": "Why does Microsoft recommend blocking legacy authentication protocols?",
+      "answer": "Legacy protocols don't support MFA; more than 97% of credential stuffing attacks and more than 99% of password spray attacks use legacy authentication.",
+      "evidence": "more than 99 percent of password spray attacks",
+      "response": "Microsoft's main concern is that legacy protocols can't enforce multifactor authentication, which makes them a common attack path. Attackers exploit this gap. Microsoft's own analysis finds that more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols.[1]\n\nBecause of the MFA gap, legacy sign-ins are also where compromise tends to happen. Attackers can get around MFA requirements by using older protocols, so most observed compromising sign-in attempts come from legacy authentication.[2]\n\nBlocking these protocols shuts down those attack methods. According to Microsoft, these attacks would stop with basic authentication disabled or blocked.[1]\n\nThe results don't say how much of your tenant's sign-in traffic uses legacy protocols. To check that, see the sign-in log steps in index 1-7, and run the policy in Report-only mode first, as described in index 1-3.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Block legacy authentication with Conditional Access",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-block-legacy-authentication",
+          "section": "Create a Conditional Access policy",
+          "page": null,
+          "chunk_id": "identity/conditional-access/policy-block-legacy-authentication#0",
+          "quotes": [
+            "Microsoft recommends that organizations block authentication requests using legacy protocols that don't support multifactor authentication. Based on Microsoft's analysis more than 97 percent of credential stuffing attacks use legacy authentication and more than 99 percent of password spray attacks use legacy authentication protocols. These attacks would stop with basic authentication disabled or blocked."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Microsoft-Managed Conditional Access Policies for Enhanced Security",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/managed-policies",
+          "section": "Monitor and review > Sign-in logs",
+          "page": null,
+          "chunk_id": "identity/conditional-access/managed-policies#4",
+          "quotes": [
+            "Most observed compromising sign-in attempts come from legacy authentication. Because legacy authentication doesn't support multifactor authentication, attackers can bypass multifactor authentication requirements by using older protocols."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/policy-block-legacy-authentication#0",
+        "identity/conditional-access/managed-policies#1",
+        "identity/conditional-access/managed-policies#4",
+        "identity/conditional-access/policy-block-authentication-flows#0",
+        "identity/conditional-access/managed-policies#3"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8674,
+      "output_tokens": 534,
+      "cost_usd": 0.0011344,
+      "retrieval_ms": 19.0,
+      "llm_ms": 3051.1,
+      "total_ms": 3070.2,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states both key facts from the reference: legacy protocols don't support MFA, and the 97% credential stuffing and 99% password spray figures. Nothing contradicts the reference. Grounding: claims in paragraphs 1-3 are supported by sources 1 and 2. The final paragraph references 'sign-in log steps in index 1-7' and 'Report-only mode first, as described in index 1-3', which are not in the quoted passages, so those claims are unsupported. The statement that the results don't say how much tenant traffic uses legacy protocols is fine, but the pointers to unquoted steps and the Report-only recommendation lack support.",
+      "grounded": false
+    },
+    {
+      "id": "q09",
+      "question": "Is there a way to see what a Conditional Access policy would do before turning it on?",
+      "answer": "Yes, report-only mode: policies are evaluated at sign-in but not enforced, so admins can assess impact. It doesn't work for policies scoped to User Actions.",
+      "evidence": "Report-only mode is a policy state that lets administrators test",
+      "response": "Yes. You can use report-only mode and the What If tool.\n\n**Report-only mode:** Report-only mode is a policy state that lets administrators test most Conditional Access policies before enabling them.[1] During sign-in, the policy is evaluated but not enforced, and results are logged in the Conditional Access and Report-only tabs of the Sign-in log details.[1] Results are logged in the Conditional Access and Report-only tabs of the sign-in log details. Possible outcomes include \"Report-only: Failure,\" meaning the conditions matched but a grant or session control wasn't met, and \"Report-only: Not applied,\" meaning the policy's conditions weren't met. Customers with an Azure Monitor subscription can monitor the impact of their Conditional Access policies using the Conditional Access insights workbook.[1]\n\n**What If tool:** This simulates a sign-in without waiting for real users to sign in. You can find it in the Microsoft Entra admin center > Entra ID > Conditional Access > Policies > What If.[2] Only policies that are enabled or in report-only mode are included in an evaluation run.[2] The report lists the policies that apply to the user and those that don't, along with the reason each one doesn't apply.\n\n**Limitation:** The What If tool doesn't test for Conditional Access service dependencies.[2] Also, the What If API expects all sign-in parameters to be defined for the evaluation to provide the most accurate results.[3]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Conditional Access Policy Insights: Monitoring and Evaluation",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-report-only",
+          "section": "Policy evaluation results",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-conditional-access-report-only#0",
+          "quotes": [
+            "Administrators have several options based on report-only mode. Report-only mode is a policy state that lets administrators test most Conditional Access policies before enabling them.",
+            "- Administrators can evaluate Conditional Access policies in report-only mode, except for items included in the \"User Actions\" scope.\n- During sign-in, the system evaluates policies in report-only mode but doesn't enforce them.\n- Results are logged in the Conditional Access and Report-only tabs of the Sign-in log details.\n- Customers with an Azure Monitor subscription can monitor the impact of their Conditional Access policies using the Conditional Access insights workbook."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "The Conditional Access What If tool",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool",
+          "section": "How it works",
+          "page": null,
+          "chunk_id": "identity/conditional-access/what-if-tool#0",
+          "quotes": [
+            "You can find the What If tool in the Microsoft Entra admin center > Entra ID > Conditional Access > Policies > What If.",
+            "Next, initiate a simulation run that evaluates your settings. Only policies that are enabled or in report-only mode are included in an evaluation run.",
+            "The What If tool doesn't test for Conditional Access service dependencies. For example, if you're using What If to test a Conditional Access policy for Microsoft Teams, the result doesn't consider any policy that applies to Office 365 Exchange Online, a Conditional Access service dependency for Microsoft Teams."
+          ]
+        },
+        {
+          "n": 3,
+          "title": "The Conditional Access What If tool",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/what-if-tool",
+          "section": "Key differences between the What If evaluation API and the legacy experience",
+          "page": null,
+          "chunk_id": "identity/conditional-access/what-if-tool#1",
+          "quotes": [
+            "1. The What If API is a public and fully supported API. You can use it through the Conditional Access experience and the Microsoft Graph API.\n1. The logic aligns with the authentication logic used during sign-in to provide more accurate policy evaluation.\n1. The What If API expects all sign-in parameters to be defined for the evaluation to provide the most accurate results. If your tenant has policies with specific conditions and the sign-in details for those conditions aren't provided, the What If API can't evaluate those conditions."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/what-if-tool#0",
+        "identity/conditional-access/plan-conditional-access#6",
+        "identity/conditional-access/concept-conditional-access-report-only#0",
+        "identity/conditional-access/policy-guests-mfa-strength#1",
+        "identity/conditional-access/what-if-tool#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6328,
+      "output_tokens": 646,
+      "cost_usd": 0.0009558,
+      "retrieval_ms": 20.5,
+      "llm_ms": 3007.5,
+      "total_ms": 3028.1,
+      "verdict": "partial",
+      "judge_reasoning": "The answer correctly states report-only mode, evaluated but not enforced, which matches the reference. But it omits the key limitation that report-only doesn't work for policies scoped to User Actions, which is an essential fact in the reference. It says 'most' policies, which hints at it but doesn't state the exception. So partial. Grounding: several claims are unsupported by the passages: the 'Report-only: Failure' and 'Not applied' outcome definitions, and the What If report listing applicable and non-applicable policies with reasons. These are not in the sources, so grounded is false.",
+      "grounded": false
+    },
+    {
+      "id": "q10",
+      "question": "How many words can we put on our custom banned password list?",
+      "answer": "A maximum of 1,000 terms.",
+      "evidence": "limited to a maximum of 1,000 terms",
+      "response": "The custom list can hold up to 1,000 entries. Microsoft sets that ceiling in its documentation The custom banned password list can contain up to 1000 terms.[1] Each entry is a string, and strings must be four to sixteen characters long The minimum string length is four characters, and the maximum is 16 characters.[1]\n\nThe feature also isn't meant for very large password lists, so keep the 1,000-entry limit in mind when planning what to add It's not designed for blocking large lists of passwords.[2]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Configure custom Microsoft Entra password protection lists",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-configure-custom-password-protection",
+          "section": "Configure custom banned passwords",
+          "page": null,
+          "chunk_id": "identity/authentication/tutorial-configure-custom-password-protection#1",
+          "quotes": [
+            "* The custom banned password list can contain up to 1000 terms.\n* The custom banned password list is case-insensitive.\n* The custom banned password list considers common character substitution, such as \"o\" and \"0\", or \"a\" and \"\\@\".\n* The minimum string length is four characters, and the maximum is 16 characters."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Configure custom Microsoft Entra password protection lists",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-configure-custom-password-protection",
+          "section": "What are banned password lists?",
+          "page": null,
+          "chunk_id": "identity/authentication/tutorial-configure-custom-password-protection#0",
+          "quotes": [
+            "The custom banned password list is limited to a maximum of 1000 terms. It's not designed for blocking large lists of passwords. To maximize the benefits of the custom banned password list, review the custom banned password list concepts and password evaluation algorithm overview."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/tutorial-configure-custom-password-protection#1",
+        "identity/authentication/tutorial-configure-custom-password-protection#0",
+        "identity/authentication/concept-password-ban-bad#1",
+        "identity/authentication/concept-password-ban-bad#3",
+        "identity/authentication/concept-password-ban-bad#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": false,
+      "input_tokens": 8326,
+      "output_tokens": 796,
+      "cost_usd": 0.0012305999999999999,
+      "retrieval_ms": 21.2,
+      "llm_ms": 4524.8,
+      "total_ms": 4546.2,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the limit is up to 1,000 entries, matching the reference. The extra details (4-16 character length, not designed for large lists) are supported by sources 1 and 2. The phrase 'Each entry is a string' is a reasonable paraphrase of 'string length'. All claims are supported by the cited passages.",
+      "grounded": true
+    },
+    {
+      "id": "q11",
+      "question": "Can we switch off Microsoft's global banned password list?",
+      "answer": "No. The global banned password list is enabled for all tenants and can't be disabled.",
+      "evidence": "The global banned password list is enabled for all tenants",
+      "response": "No, you can't turn off the global banned password list. It applies automatically to every user in the tenant, and there's no setting to enable or configure it, so it can't be disabled. The global banned password list is automatically applied to all users in a Microsoft Entra tenant. There's nothing to enable or configure, and can't be disabled.[1] Its entries are also fixed, since you can't edit this default global banned password list.[2]\n\nIf you need stricter rules, you can add your own terms to the custom banned password list. Those terms are combined with the terms in the global banned password list. Password change or reset events are then validated against the combined set of these banned password lists.[1] To turn off only the custom list, go to Entra ID > Authentication methods > Password protection and set Enforce custom list to No. The global list stays active either way.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Password protection in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-password-ban-bad",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-password-ban-bad#0",
+          "quotes": [
+            "The global banned password list is automatically applied to all users in a Microsoft Entra tenant. There's nothing to enable or configure, and can't be disabled. This global banned password list is applied to users when they change or reset their own password through Microsoft Entra ID.",
+            "When terms are added to the custom banned password list, they're combined with the terms in the global banned password list. Password change or reset events are then validated against the combined set of these banned password lists."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Configure custom Microsoft Entra password protection lists",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/tutorial-configure-custom-password-protection",
+          "section": "What are banned password lists?",
+          "page": null,
+          "chunk_id": "identity/authentication/tutorial-configure-custom-password-protection#0",
+          "quotes": [
+            "Microsoft Entra ID includes a global banned password list. The contents of the global banned password list isn't based on any external data source. Instead, the global banned password list is based on the ongoing results of Microsoft Entra security telemetry and analysis. When a user or administrator tries to change or reset their credentials, the desired password is checked against the list of banned passwords. The password change request fails if there's a match in the global banned password list. You can't edit this default global banned password list."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/tutorial-configure-custom-password-protection#0",
+        "identity/authentication/tutorial-configure-custom-password-protection#1",
+        "identity/authentication/concept-password-ban-bad#0",
+        "identity/authentication/concept-password-ban-bad#1",
+        "identity/authentication/concept-password-ban-bad#4"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 7311,
+      "output_tokens": 787,
+      "cost_usd": 0.0011246,
+      "retrieval_ms": 31.4,
+      "llm_ms": 3991.1,
+      "total_ms": 4022.6,
+      "verdict": "correct",
+      "judge_reasoning": "The answer matches the reference: the global banned password list can't be disabled and applies to all tenants. Most claims are supported by passages [1] and [2]. However, the final claim about turning off the custom list via Entra ID > Authentication methods > Password protection and setting Enforce custom list to No is not in either cited passage, so it is ungrounded.",
+      "grounded": false
+    },
+    {
+      "id": "q12",
+      "question": "How long can a custom security question for password reset be?",
+      "answer": "200 characters at most.",
+      "evidence": "maximum length of a custom security question is 200 characters",
+      "response": "A custom security question can be up to 200 characters[1] long, which is the ceiling for these questions. The results don't cover any other length rules for the question text itself.\n\nNote that security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027[2], so plan for alternative methods.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Security questions authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-security-questions",
+          "section": "Predefined questions",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-security-questions#1",
+          "quotes": [
+            "For additional flexibility, you can define your own custom security questions. The maximum length of a custom security question is 200 characters."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Security questions authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-security-questions",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-security-questions#0",
+          "quotes": [
+            "Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027. After that date, users will no longer be able to reset passwords using security questions. Ensure users are set up with supported authentication methods in the Authentication methods policy.\nThis feature is being deprecated due to security risks and low reliability. Security questions are often guessable or susceptible to social engineering, increasing the risk of account takeover during SSPR. Stronger verification methods improve security and reduce reset failures and support escalations.\nPrepare in advance to avoid user lockouts, helpdesk escalations, and failed password reset experiences once enforcement begins in March 2027."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-authentication-security-questions#0",
+        "identity/authentication/concept-authentication-security-questions#1",
+        "identity/authentication/concept-sspr-policy#1",
+        "identity/authentication/tutorial-configure-custom-password-protection#1",
+        "identity/authentication/troubleshoot-sspr#4"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7200,
+      "output_tokens": 277,
+      "cost_usd": 0.0008585,
+      "retrieval_ms": 27.5,
+      "llm_ms": 1904.3,
+      "total_ms": 1932.0,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the maximum length is 200 characters, matching the reference. The claim is supported by source 1. The retirement of security questions for SSPR in March 2027 is supported by source 2. The remark that results don't cover other length rules is a meta-statement, not a factual claim contradicted by sources.",
+      "grounded": true
+    },
+    {
+      "id": "q13",
+      "question": "When will security questions stop working for self-service password reset?",
+      "answer": "They are being retired for SSPR in March 2027.",
+      "evidence": "in March 2027",
+      "response": "Security questions will be retired for self-service password reset in March 2027. After that, users can no longer reset their passwords with security questions. Ensure users are set up with supported authentication methods in the Authentication methods policy.[1]\n\nMicrosoft is retiring them because security questions are often guessable or susceptible to social engineering[1]. Helpdesk teams should plan ahead so users aren't locked out once enforcement begins.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Security questions authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-security-questions",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-security-questions#0",
+          "quotes": [
+            "Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027. After that date, users will no longer be able to reset passwords using security questions. Ensure users are set up with supported authentication methods in the Authentication methods policy.\nThis feature is being deprecated due to security risks and low reliability. Security questions are often guessable or susceptible to social engineering, increasing the risk of account takeover during SSPR. Stronger verification methods improve security and reduce reset failures and support escalations.\nPrepare in advance to avoid user lockouts, helpdesk escalations, and failed password reset experiences once enforcement begins in March 2027."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-authentication-security-questions#0",
+        "identity/authentication/troubleshoot-sspr#4",
+        "identity/authentication/howto-sspr-reporting#0",
+        "identity/authentication/troubleshoot-sspr-writeback#7",
+        "identity/authentication/concept-sspr-howitworks#5"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6443,
+      "output_tokens": 218,
+      "cost_usd": 0.0007533,
+      "retrieval_ms": 29.6,
+      "llm_ms": 1586.2,
+      "total_ms": 1616.0,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states security questions are retired for SSPR in March 2027, matching the reference. Extra details (users can't reset after, use Authentication methods policy, reason is guessability/social engineering, avoid lockouts) are all supported by the passage. The claim that 'Microsoft is retiring them' is a minor attribution not explicit in the passage, but the passage says the feature is being deprecated, and Microsoft attribution is implied by context; it is a small inference. Overall supported.",
+      "grounded": true
+    },
+    {
+      "id": "q14",
+      "question": "I revoked a user's sessions. How long can the access token they already have keep working?",
+      "answer": "Access tokens issued by Entra ID last 1 hour by default, so an existing access token can stay valid until it expires (unless the app supports continuous access evaluation).",
+      "evidence": "access tokens issued by Microsoft Entra ID last for 1 hour",
+      "response": "Under the default settings, an access token the user already holds can usually keep working for up to about one hour. By default, access tokens issued by Microsoft Entra ID last for 1 hour.[1] If you aren't using CAE-capable clients, your default access token lifetime remains 1 hour.[2]\n\nThe timing depends on the client:\n\n- **CAE-capable clients:** Revocation can take effect much sooner. CAE allows admins to revoke the session tokens and access tokens for applications that are CAE capable.[3] For these sessions, critical events and policy evaluation drive revocation, not just an arbitrary time period.[2] The token lifetime can be longer in these sessions, up to 28 hours[2], so don't rely on the lifetime alone.\n- **Browser session tokens:** Entra ID can't end these directly. To revoke a session token, the application must revoke access based on its own authorization policies. Microsoft Entra ID can't directly revoke a session token issued by an application.[1]\n\nThe results also note that in some scenarios, there could be a period between the initiation of access revocation and when access is effectively revoked.[1] They don't give a specific delay for your tenant, so check the access revocation guidance and your app configuration if you need a firm time. For a full cutoff, ensure applications revoke their own session tokens and stop accepting Microsoft Entra access tokens even if they're still valid.[3]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Revoke user access in an emergency in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/users-revoke-access",
+          "section": "Access tokens and refresh tokens",
+          "page": null,
+          "chunk_id": "identity/users/users-revoke-access#0",
+          "quotes": [
+            "- When users authenticate to Microsoft Entra ID, part of Microsoft Entra, authorization policies are evaluated to determine if the user can be granted access to a specific resource.\n- After authorization, Microsoft Entra ID issues an access token and a refresh token for the resource.\n- If the authentication protocol allows, the app can silently reauthenticate the user by passing the refresh token to Microsoft Entra ID when the access token expires. By default, access tokens issued by Microsoft Entra ID last for 1 hour.\n- Microsoft Entra ID then reevaluates its authorization policies. If the user is still authorized, Microsoft Entra ID issues a new access token and refresh token.",
+            "- To revoke a session token, the application must revoke access based on its own authorization policies. Microsoft Entra ID can't directly revoke a session token issued by an application.",
+            "Scenarios that could require an administrator to revoke all access for a user include compromised accounts, employee termination, and other insider threats. Depending on the complexity of the environment, administrators can take several steps to ensure access is revoked. In some scenarios, there could be a period between the initiation of access revocation and when access is effectively revoked."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Continuous access evaluation in Microsoft Entra",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-continuous-access-evaluation",
+          "section": "Example flow diagrams > User condition change flow",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-continuous-access-evaluation#2",
+          "quotes": [
+            "If you aren't using CAE-capable clients, your default access token lifetime remains 1 hour. The default only changes if you configured your access token lifetime with the Configurable Token Lifetime (CTL) feature.",
+            "Token lifetime increases to long-lived, up to 28 hours, in CAE sessions. Critical events and policy evaluation drive revocation, not just an arbitrary time period. This change increases the stability of applications without affecting security posture."
+          ]
+        },
+        {
+          "n": 3,
+          "title": "Revoke user access in an emergency in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/users-revoke-access",
+          "section": "Best practices",
+          "page": null,
+          "chunk_id": "identity/users/users-revoke-access#2",
+          "quotes": [
+            "- Use Continuous Access Evaluation (CAE) in Microsoft Entra ID. CAE allows admins to revoke the session tokens and access tokens for applications that are CAE capable.",
+            "- Deploy an automated provisioning and deprovisioning solution. Deprovisioning users from applications is an effective way of revoking access, especially for applications that use sessions tokens or allow users to sign in directly without a Microsoft Entra or Windows Server AD token. Develop a process to also deprovision users to apps that don't support automatic provisioning and deprovisioning. Ensure applications revoke their own session tokens and stop accepting Microsoft Entra access tokens even if they're still valid."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/users-revoke-access#0",
+        "identity/conditional-access/concept-continuous-access-evaluation#2",
+        "identity/authentication/howto-authentication-methods-activity#1",
+        "identity/users/users-revoke-access#2",
+        "identity/conditional-access/concept-session-lifetime#3"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7400,
+      "output_tokens": 1097,
+      "cost_usd": 0.0012885,
+      "retrieval_ms": 30.1,
+      "llm_ms": 5252.8,
+      "total_ms": 5283.1,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the default 1-hour access token lifetime and notes CAE exceptions, matching the reference. Every claim is supported by the cited passages: [1] for 1 hour, session token limitation, and revocation delay; [2] for non-CAE 1 hour default and 28 hour CAE lifetime; [3] for CAE revoking tokens and apps revoking their own sessions. Minor point: 'Browser session tokens' label is a slight paraphrase, but the passage says application session tokens, which is close enough. No contradictions.",
+      "grounded": true
+    },
+    {
+      "id": "q15",
+      "question": "How many custom domain names can one tenant have?",
+      "answer": "Up to 5,000 managed domain names; if all domains are federated with on-premises AD, up to 2,500 per organization.",
+      "evidence": "You can add up to 5000 managed domain names",
+      "response": "A tenant can hold up to 5,000 managed domains. If all of them are federated with on-premises Active Directory, the cap falls to 2,500 You can add up to 5000 managed domain names. If you're configuring all your domains for federation with on-premises Active Directory, you can add up to 2,500 domain names in each organization.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Add and verify custom domain names",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/domains-manage",
+          "section": "Delete a custom domain name",
+          "page": null,
+          "chunk_id": "identity/users/domains-manage#0",
+          "quotes": [
+            "You can add up to 5000 managed domain names. If you're configuring all your domains for federation with on-premises Active Directory, you can add up to 2,500 domain names in each organization."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/domains-manage#0",
+        "identity/users/domains-manage#2",
+        "identity/users/strengthen-federated-sign-in-security#2",
+        "identity/users/domains-manage#1",
+        "identity/users/strengthen-federated-sign-in-security#4"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8683,
+      "output_tokens": 345,
+      "cost_usd": 0.0010408000000000001,
+      "retrieval_ms": 35.5,
+      "llm_ms": 2050.2,
+      "total_ms": 2085.9,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states 5,000 managed domains and a 2,500 cap when all are federated with on-premises AD, matching the reference. The claims are directly supported by source [1], which is quoted nearly verbatim. The repetition is awkward but not contradictory.",
+      "grounded": true
+    },
+    {
+      "id": "q16",
+      "question": "Is there a limit to how many dynamic membership groups a tenant can have?",
+      "answer": "Yes, a maximum of 15,000 dynamic membership groups per tenant.",
+      "evidence": "maximum of 15,000 dynamic membership groups",
+      "response": "Yes. The overview articles say a single tenant can have a maximum of 15,000 dynamic membership groups.[1] The `memberOf` preview has its own sub-limit: 500 dynamic groups using the `memberOf` attribute[2] per tenant, and those count toward the 15,000 total.\n\nThe results conflict on this number. The troubleshooting article states the max number of dynamic groups per organization is 5,000.[3] Because the other sources say 15,000, confirm the current figure in Microsoft's documentation before giving it to a customer.\n\nIf a tenant reaches its limit, the troubleshooting article says you first need to delete some existing dynamic groups. There's no way to increase the limit.[3]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Manage rules for dynamic membership groups in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-membership",
+          "section": "Overview",
+          "page": null,
+          "chunk_id": "identity/users/groups-dynamic-membership#0",
+          "quotes": [
+            "You can create user-based or device attribute-based rules to enable membership for dynamic membership groups in Microsoft Entra ID. You can add and remove dynamic membership groups automatically by using membership rules based on member attributes. In Microsoft Entra, a single tenant can have a maximum of 15,000 dynamic membership groups."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Configure dynamic membership groups with the memberOf operator in the Entra Admin Center (preview)",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-rule-member-of",
+          "section": "Preview limitations",
+          "page": null,
+          "chunk_id": "identity/users/groups-dynamic-rule-member-of#1",
+          "quotes": [
+            "- This preview should only be used in test environments as it can affect dynamic group processing in the tenant. These limitations are being addressed, and updates will be provided when they're available.\n- Each Microsoft Entra tenant is limited to 500 dynamic groups using the `memberOf` attribute. The `memberOf` groups count toward the total dynamic group quota of 15,000.\n- Each dynamic group can have up to 50 member groups.\n- When you add members of security groups to `memberOf` dynamic membership groups, only direct members of the security group become members of the dynamic group.\n- You can't use one `memberOf` dynamic group to define the membership of another `memberOf` dynamic group. For example, Dynamic Group A, with members of group B and C in it, can't be a member of Dynamic Group D.\n- The `memberOf` attribute can't be used with other rules. For example, a rule that states dynamic group A should contain members of group B and also should contain only users located in Redmond will fail.\n- The dynamic group rule builder and validate feature can't be used for `memberOf` at this time.\n- The `memberOf` attribute can't be used with other operators. For example, you can't create a rule that states \"Members Of group A can't be in Dynamic group B.\"\n- Users included in `memberOf` dynamic membership groups might cause a slower processing time for your tenant, if the tenant has a large number of groups or frequent dynamic membership groups updates.\n- Membership of a memberOf dynamic group doesn't automatically update when a child group is deleted or when members are removed from a child group. The affected users or devices remain members of the memberOf dynamic group until the rule is modified."
+          ]
+        },
+        {
+          "n": 3,
+          "title": "Fix problems with dynamic membership groups",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-troubleshooting",
+          "section": "Troubleshoot dynamic membership groups",
+          "page": null,
+          "chunk_id": "identity/users/groups-troubleshooting#0",
+          "quotes": [
+            "The max number of dynamic groups per organization is 5,000.\nWhen you reach the maximum number of dynamic groups in your organization, you receive a message in PowerShell that says *Dynamic group policies max allowed groups count reached*.",
+            "If you run into this limit, to create any new dynamic groups, you first need to delete some existing dynamic groups. There's no way to increase the limit."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/groups-dynamic-rule-member-of#1",
+        "identity/users/groups-dynamic-membership#0",
+        "identity/users/groups-troubleshooting#0",
+        "identity/users/groups-create-rule#0",
+        "identity/users/groups-troubleshooting#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7915,
+      "output_tokens": 515,
+      "cost_usd": 0.001049,
+      "retrieval_ms": 32.6,
+      "llm_ms": 2934.1,
+      "total_ms": 2966.9,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the 15,000 per tenant maximum, matching the reference. It adds a conflicting 5,000 figure from the troubleshooting source and advises verifying, but it clearly leads with 15,000. This hedging is a minor issue; the key fact is stated. All claims are supported by the cited passages: 15,000 in [1], 500 memberOf sub-limit counting toward 15,000 in [2], and the 5,000 conflict, delete groups, and no increase in [3]. The claim 'overview articles' is slightly loose but fine.",
+      "grounded": true
+    },
+    {
+      "id": "q17",
+      "question": "I changed the rule of a dynamic group but its members haven't updated. How long can that take?",
+      "answer": "Depending on the size of the organization, populating can take up to 24 hours the first time or after a rule change.",
+      "evidence": "up to 24 hours for populating",
+      "response": "Usually a few minutes, but a large directory can take much longer. Small directories typically see dynamic membership group changes in less than a few minutes, while directories with many users can need 30 minutes or more to populate.[1]\n\nTo check progress, open the group's overview page. The rule processing status and the date of the last membership change appear there.[2] A status of Evaluating, Processing, or Update complete indicates normal progress. A status of Processing error means the rule couldn't be evaluated.\n\nIf the membership still doesn't change:\n\n1. **Check for a rule error.** If the rule isn't valid, the portal displays an explanation of why the rule couldn't be processed.[2] Common fixes are listed in the troubleshooting article, which shows examples such as \"Error: Attribute not supported\" and \"Error: Operator isn't supported on attribute.\"[1]\n2. **Look for alerts.** If an error occurs while processing the membership rule for a specific group, an alert appears at the top of the group's overview page.[2]\n3. **Trigger reprocessing if needed.** The results say there's no on-demand option, but you can manually trigger reprocessing by updating the membership rule to add a whitespace at the end.[1]\n\nThe results don't say how long processing takes beyond these general figures, so if the status stays stuck, escalate it for further investigation.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Fix problems with dynamic membership groups",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-troubleshooting",
+          "section": "Troubleshoot dynamic membership groups",
+          "page": null,
+          "chunk_id": "identity/users/groups-troubleshooting#1",
+          "quotes": [
+            "Typically, directories with small numbers of users see the dynamic membership group changes in less than a few minutes. Directories with a large number of users can take 30 minutes or longer to populate.",
+            "| Rule parser error | Error usage | Corrected usage |\n| --- | --- | --- |\n| Error: Attribute not supported. |(user.invalidProperty -eq \"Value\") |(user.department -eq \"value\")Make sure the attribute is on the supported properties list. |\n| Error: Operator isn't supported on attribute. |(user.accountEnabled -contains true) |(user.accountEnabled -eq true)The operator used isn't supported for the property type (in this example, -contains can't be used on type boolean). Use the correct operators for the property type. |\n| Error: Query compilation error. | 1. (user.department -eq \"Sales\") (user.department -eq \"Marketing\")2. (user.userPrincipalName -match \"\\*@domain.ext\") | 1. Missing operator. Use -and or -or to join predicates(user.department -eq \"Sales\") -or (user.department -eq \"Marketing\")2. Error in regular expression used with -match(user.userPrincipalName -match \".\\*@domain.ext\")or alternatively: (user.userPrincipalName -match \"@domain.ext$\") |",
+            "How can I force the group to be processed now?\nCurrently, there's no way to automatically trigger the group to be processed on demand. However, you can manually trigger the reprocessing by updating the membership rule to add a whitespace at the end."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Create or Edit a Dynamic Membership Group and Get Its Processing Status",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-create-rule",
+          "section": "Check the processing status for a rule",
+          "page": null,
+          "chunk_id": "identity/users/groups-create-rule#1",
+          "quotes": [
+            "You can see the rule processing status and the date of the last membership change on the overview page for the dynamic membership group.",
+            "If the rule that you entered isn't valid, the portal displays an explanation of why the rule couldn't be processed. Read it carefully to understand how to fix the rule.",
+            "If an error occurs during processing of the membership rule for a specific group, an alert appears on the top of the overview page for the group. If no pending updates for dynamic membership groups can be processed for all the groups within the organization for more than 24 hours, an alert appears above All groups."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/groups-create-rule#1",
+        "identity/users/groups-troubleshooting#1",
+        "identity/users/groups-change-type#0",
+        "identity/users/groups-change-type#1",
+        "identity/users/groups-create-rule#0"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 7619,
+      "output_tokens": 814,
+      "cost_usd": 0.0011689,
+      "retrieval_ms": 45.4,
+      "llm_ms": 4251.6,
+      "total_ms": 4297.3,
+      "verdict": "partial",
+      "judge_reasoning": "The reference says populating can take up to 24 hours the first time or after a rule change, depending on organization size. The answer says usually a few minutes, with large directories taking 30 minutes or longer, and never mentions the 24-hour upper bound. This misses the key fact and understates the time, so it is partial at best. It also says that the results don't state any duration beyond these general figures, which is misleading since passage 2 mentions 24 hours. On grounding: the 30-minute and few-minute claims, the error examples, whitespace trick, and alerts are all supported by the passages. However, the claim that statuses 'Evaluating, Processing, or Update complete' indicate normal progress, and 'Processing error means the rule couldn't be evaluated', do not appear in the passages. So the answer is not fully grounded.",
+      "grounded": false
+    },
+    {
+      "id": "q18",
+      "question": "How many groups can a memberOf dynamic group rule reference?",
+      "answer": "Up to 50 member groups per dynamic group.",
+      "evidence": "Each dynamic group can have up to 50 member groups",
+      "response": "A single memberOf dynamic group can draw membership from up to 50 source groups. Each dynamic group can have up to 50 member groups.[1]\n\nThe same documentation also sets a tenant-wide ceiling: each Microsoft Entra tenant is limited to 500 dynamic groups using the `memberOf` attribute.[1]\n\nNote that it's currently in preview, and it comes with bugs and limitations[2], and after November 3, 2026, dynamic membership groups, dynamic administrative units, and entitlement management auto-assignment policies that use the `memberOf` operator stop updating and remain in their last known state.[3]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Configure dynamic membership groups with the memberOf operator in the Entra Admin Center (preview)",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-rule-member-of",
+          "section": "Preview limitations",
+          "page": null,
+          "chunk_id": "identity/users/groups-dynamic-rule-member-of#1",
+          "quotes": [
+            "- This preview should only be used in test environments as it can affect dynamic group processing in the tenant. These limitations are being addressed, and updates will be provided when they're available.\n- Each Microsoft Entra tenant is limited to 500 dynamic groups using the `memberOf` attribute. The `memberOf` groups count toward the total dynamic group quota of 15,000.\n- Each dynamic group can have up to 50 member groups.\n- When you add members of security groups to `memberOf` dynamic membership groups, only direct members of the security group become members of the dynamic group.\n- You can't use one `memberOf` dynamic group to define the membership of another `memberOf` dynamic group. For example, Dynamic Group A, with members of group B and C in it, can't be a member of Dynamic Group D.\n- The `memberOf` attribute can't be used with other rules. For example, a rule that states dynamic group A should contain members of group B and also should contain only users located in Redmond will fail.\n- The dynamic group rule builder and validate feature can't be used for `memberOf` at this time.\n- The `memberOf` attribute can't be used with other operators. For example, you can't create a rule that states \"Members Of group A can't be in Dynamic group B.\"\n- Users included in `memberOf` dynamic membership groups might cause a slower processing time for your tenant, if the tenant has a large number of groups or frequent dynamic membership groups updates.\n- Membership of a memberOf dynamic group doesn't automatically update when a child group is deleted or when members are removed from a child group. The affected users or devices remain members of the memberOf dynamic group until the rule is modified."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Understand and manage dynamic group processing in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/manage-dynamic-group",
+          "section": "Best practices for dynamic membership groups in your tenant > Optimize rule efficiency",
+          "page": null,
+          "chunk_id": "identity/users/manage-dynamic-group#1",
+          "quotes": [
+            "- Avoid the use of the `memberOf` operator if possible. It's currently in preview, and it comes with bugs and limitations. It can also introduce more complexity, particularly if a tenant has a large number of groups or frequent updates. The recommendation is to delete existing `memberOf` groups in your tenant."
+          ]
+        },
+        {
+          "n": 3,
+          "title": "Configure dynamic membership groups with the memberOf operator in the Entra Admin Center (preview)",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/groups-dynamic-rule-member-of",
+          "section": "Overview",
+          "page": null,
+          "chunk_id": "identity/users/groups-dynamic-rule-member-of#0",
+          "quotes": [
+            "The public preview of the `memberOf` rule operator is ending. After November 3, 2026, dynamic membership groups, dynamic administrative units, and entitlement management auto-assignment policies that use the `memberOf` operator stop updating and remain in their last known state. This can lead to stale access and enforcement gaps, including outdated Teams and SharePoint access, Conditional Access targeting, group-based licensing, and access package assignments.\nBefore November 3, 2026, review all uses of the `memberOf` operator and remove or replace those configurations. See Migrate before the preview ends. This is a preview feature that isn't intended for production use; review the Preview limitations."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/groups-dynamic-rule-member-of#1",
+        "identity/users/manage-dynamic-group#1",
+        "identity/users/groups-create-rule#0",
+        "identity/users/groups-dynamic-rule-member-of#0",
+        "identity/users/groups-dynamic-membership#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6893,
+      "output_tokens": 616,
+      "cost_usd": 0.0009973,
+      "retrieval_ms": 29.3,
+      "llm_ms": 3141.8,
+      "total_ms": 3171.3,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states up to 50 member groups per dynamic group, matching the reference. Extra details (500 dynamic group tenant limit, preview bugs, November 3, 2026 end date) are all supported by the cited passages. Source 1 supports the 50 and 500 claims, source 2 supports the preview/bugs claim, and source 3 supports the end-of-preview behavior.",
+      "grounded": true
+    },
+    {
+      "id": "q19",
+      "question": "We restricted what guest users can see in the directory. When does that take effect?",
+      "answer": "It can take up to 15 minutes to take effect for guest users.",
+      "evidence": "up to 15 minutes to take effect for guest users",
+      "response": "Based on the search results, the change isn't immediate. After you save the setting, guests may need up to 15 minutes before the new restriction applies to them. The changes can take up to 15 minutes to take effect for guest users.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Restrict guest user access permissions",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/users-restrict-guest-permissions",
+          "section": "Overview",
+          "page": null,
+          "chunk_id": "identity/users/users-restrict-guest-permissions#0",
+          "quotes": [
+            "1. Select Save. The changes can take up to 15 minutes to take effect for guest users."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/users-restrict-guest-permissions#1",
+        "identity/users/users-restrict-guest-permissions#0",
+        "identity/users/users-restrict-guest-permissions#2",
+        "identity/conditional-access/concept-conditional-access-users-groups#1",
+        "identity/users/clean-up-stale-guest-accounts#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7934,
+      "output_tokens": 266,
+      "cost_usd": 0.0009264000000000001,
+      "retrieval_ms": 33.0,
+      "llm_ms": 1840.7,
+      "total_ms": 1873.8,
+      "verdict": "correct",
+      "judge_reasoning": "The answer says the change takes up to 15 minutes to take effect for guest users, matching the reference. It adds that the change isn't immediate and that this starts after saving, which is consistent with the source passage (\"Select Save. The changes can take up to 15 minutes...\"). All claims are supported by source 1.",
+      "grounded": true
+    },
+    {
+      "id": "q20",
+      "question": "What counts as an inactive guest in the inactive guest report?",
+      "answer": "Guests with 90 days of inactivity.",
+      "evidence": "based on 90 days of inactivity",
+      "response": "In the inactive guest report, a guest is inactive once they pass the inactivity cutoff. The cutoff is set to 90 days by default, but you can configure it by using Edit inactivity threshold based on your organization's needs.[1]\n\nThe number of days is measured from different starting points depending on sign-in history. For guests who have signed in at least once, the count runs from their last sign-in. For guests who have never signed in, the count runs from the account's creation date. The inactive days are calculated based on last sign in date if the user has signed in at least once. For users who have never signed in, the inactive days are calculated based on creation date.[1]\n\nEach guest is then labeled in the Guest accounts summary as active or inactive, based on the threshold you set. The Activity state could be active or inactive based on the configured inactivity threshold[1].",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Monitor and clean up stale guest accounts",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/clean-up-stale-guest-accounts",
+          "section": "Overview",
+          "page": null,
+          "chunk_id": "identity/users/clean-up-stale-guest-accounts#0",
+          "quotes": [
+            "1. Sign in to the Microsoft Entra admin center.\n1. Browse to ID Governance > Dashboard.\n1. Access the inactive guest account report by navigating to the Guest access governance card then select View inactive guests.\n1. The inactive guest report provides insights about inactive guest users based on 90 days of inactivity. The threshold is set to 90 days by default, but you can configure it by using Edit inactivity threshold based on your organization's needs.\n1. The following insights are provided as part of this report:",
+            "1. The inactive days are calculated based on last sign in date if the user has signed in at least once. For users who have never signed in, the inactive days are calculated based on creation date.",
+            "- Guest account overview (total guests and inactive guests with further categorization of guests who have never signed in or signed in at least once)\n- Guest inactivity distribution (Percentage distribution of guest users based on days since last sign in)\n- Guest inactivity overview (Guest inactivity guidance to configure inactivity threshold)\n- Guest accounts summary (An exportable tabular view with details of all guest accounts with insights into their activity state. The Activity state could be active or inactive based on the configured inactivity threshold)"
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/clean-up-stale-guest-accounts#0",
+        "identity/users/clean-up-stale-guest-accounts#2",
+        "identity/users/clean-up-stale-guest-accounts#1",
+        "identity/conditional-access/troubleshoot-conditional-access#2",
+        "identity/users/users-restrict-guest-permissions#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7416,
+      "output_tokens": 737,
+      "cost_usd": 0.0011101,
+      "retrieval_ms": 21.3,
+      "llm_ms": 3809.6,
+      "total_ms": 3831.1,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the 90-day default threshold, matching the reference, and adds that it is configurable and how days are counted. All of this is supported by the passage. The claim that guests are labeled active/inactive in the Guest accounts summary is also in the passage.",
+      "grounded": true
+    },
+    {
+      "id": "q21",
+      "question": "How far back can I see Conditional Access policy changes in the audit log?",
+      "answer": "Audit log data is kept for 30 days by default; send it to Log Analytics (Azure Monitor) to keep it longer.",
+      "evidence": "Audit log data is kept for 30 days by default",
+      "response": "The default retention period is 30 days. Audit log data is kept for 30 days by default, which might not be enough for every organization.[1] Changes older than that won't appear in the audit log unless you've extended retention.\n\nTo keep data longer, find these options under Entra ID > Monitoring & health > Diagnostic settings > Edit setting. If you don't have a diagnostic setting, see Create diagnostic settings to send platform logs and metrics to different destinations for instructions to create one.[1] The available destinations include a Log Analytics workspace, a storage account, Event Hubs, or a partner solution.[1]\n\nThe results don't say how far back a Log Analytics workspace or storage account retains data, since that depends on the retention settings of the destination.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Troubleshoot Conditional Access policy changes",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/troubleshoot-policy-changes-audit-log",
+          "section": "Reading the values",
+          "page": null,
+          "chunk_id": "identity/conditional-access/troubleshoot-policy-changes-audit-log#0",
+          "quotes": [
+            "Audit log data is kept for 30 days by default, which might not be enough for every organization. Organizations can store data longer by changing diagnostic settings in Microsoft Entra ID to:",
+            "Find these options under Entra ID > Monitoring & health > Diagnostic settings > Edit setting. If you don't have a diagnostic setting, see Create diagnostic settings to send platform logs and metrics to different destinations for instructions to create one.",
+            "- Send data to a Log Analytics workspace\n- Archive data to a storage account\n- Stream data to Event Hubs\n- Send data to a partner solution"
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/troubleshoot-policy-changes-audit-log#0",
+        "identity/conditional-access/concept-conditional-access-report-only#1",
+        "identity/conditional-access/how-to-migrate-conditional-access-policy-plan#1",
+        "identity/conditional-access/concept-conditional-access-policy-common#1",
+        "identity/conditional-access/concept-conditional-access-report-only#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8142,
+      "output_tokens": 636,
+      "cost_usd": 0.0011322,
+      "retrieval_ms": 33.4,
+      "llm_ms": 3381.0,
+      "total_ms": 3414.6,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states the 30-day default and says retention can be extended by sending logs to a Log Analytics workspace (plus other destinations), matching the reference's key facts. The claims about the menu path and the destinations are all in the passage. The statement that retention depends on the destination's settings is a mild inference not in the passage, and the claim that changes older than 30 days won't appear unless retention is extended is a reasonable restatement. The 'results don't say' sentence is a meta-statement rather than a factual claim, so it doesn't count as unsupported.",
+      "grounded": true
+    },
+    {
+      "id": "q22",
+      "question": "If a Conditional Access policy has several grant controls ticked, does the user have to satisfy all of them?",
+      "answer": "By default yes, all selected controls are required; the policy can instead be set to require one of the selected controls.",
+      "evidence": "By default, Conditional Access requires all selected controls",
+      "response": "Unless an admin changes it, yes. By default, multiple controls require all.[1] The admin can instead set the policy to accept any one of the selected controls. The two options are Require all the selected controls (control and control)[1] and Require one of the selected controls (control or control)[1].\n\nFor the \"one of\" option, the user is prompted for each control in turn. If a policy with \"Require one of the selected controls\" is selected, prompts appear in the defined order. Once the policy requirements are satisfied, access is granted.[2]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Build Conditional Access policies in Microsoft Entra",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-policies",
+          "section": "Access controls > Session",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-conditional-access-policies#1",
+          "quotes": [
+            "Administrators choose to require one of the previous controls or all selected controls using the following options. By default, multiple controls require all.",
+            "- Require all the selected controls (control and control)\n- Require one of the selected controls (control or control)"
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Build Conditional Access policies in Microsoft Entra",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-policies",
+          "section": "Overview",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-conditional-access-policies#0",
+          "quotes": [
+            "If a policy with \"Require one of the selected controls\" is selected, prompts appear in the defined order. Once the policy requirements are satisfied, access is granted."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/concept-conditional-access-policies#0",
+        "identity/conditional-access/concept-conditional-access-report-only#2",
+        "identity/conditional-access/concept-conditional-access-policies#1",
+        "identity/conditional-access/concept-conditional-access-conditions#1",
+        "identity/conditional-access/plan-conditional-access#2"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 6196,
+      "output_tokens": 646,
+      "cost_usd": 0.0009426,
+      "retrieval_ms": 30.5,
+      "llm_ms": 3240.0,
+      "total_ms": 3270.7,
+      "verdict": "correct",
+      "judge_reasoning": "The answer matches the reference: by default all selected controls are required, and the policy can be set to require one of them. The claims in the first paragraph are supported by source 1. The second paragraph's claim that prompts appear in the defined order and access is granted once requirements are satisfied is in source 2. However, the answer adds that 'the user is prompted for each control in turn' for the 'one of' option, which slightly extends the source. Source 2 says prompts appear in the defined order, which supports a sequence of prompts. Once requirements are satisfied, access is granted, which is consistent. This is a minor paraphrase and is essentially supported.",
+      "grounded": true
+    },
+    {
+      "id": "q23",
+      "question": "Does number matching work for Authenticator push notifications on an Apple Watch?",
+      "answer": "No, number matching isn't supported for push notifications on Apple Watch or Android wearable devices.",
+      "evidence": "Number matching isn't supported for push notifications for Apple Watch",
+      "response": "No, number matching doesn't work for Authenticator push notifications on an Apple Watch. Wearable users must approve on their phone instead. Number matching isn't supported for push notifications for Apple Watch or Android wearable devices.[1] Authenticator also isn't available on the watch itself. In the Authenticator release in January 2023 for iOS, there's no companion app for watchOS because it's incompatible with Authenticator security features.[2] Microsoft recommends removing Authenticator from the watch and signing in on another device.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "How number matching works in MFA push notifications for Authenticator",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-mfa-number-match",
+          "section": "Number matching scenarios > NPS extension",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-mfa-number-match#0",
+          "quotes": [
+            "Number matching isn't supported for push notifications for Apple Watch or Android wearable devices. Wearable device users need to use their phone to approve notifications when number matching is enabled."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "How number matching works in MFA push notifications for Authenticator",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-mfa-number-match",
+          "section": "FAQs > Is Apple Watch supported for Authenticator?",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-mfa-number-match#3",
+          "quotes": [
+            "In the Authenticator release in January 2023 for iOS, there's no companion app for watchOS because it's incompatible with Authenticator security features. You can't install or use Authenticator on Apple Watch. We recommend that you delete Authenticator from your Apple Watch and sign in with Authenticator on another device."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/how-to-mfa-number-match#3",
+        "identity/authentication/how-to-mfa-number-match#0",
+        "identity/authentication/how-to-mfa-number-match#2",
+        "identity/authentication/how-to-mfa-number-match#1",
+        "identity/authentication/concept-authentication-authenticator-app#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8037,
+      "output_tokens": 458,
+      "cost_usd": 0.0010327000000000001,
+      "retrieval_ms": 35.8,
+      "llm_ms": 2309.2,
+      "total_ms": 2345.2,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states number matching isn't supported on Apple Watch or Android wearables, matching the reference. Extra details (use phone to approve, no watchOS companion app, recommendation to delete from watch) are all supported by the cited passages. The claim 'Microsoft recommends' is a mild paraphrase of 'We recommend', which is acceptable.",
+      "grounded": true
+    },
+    {
+      "id": "q24",
+      "question": "What kind of hardware OATH tokens does Entra ID support?",
+      "answer": "OATH TOTP SHA-1 tokens that refresh codes every 30 or 60 seconds; secret keys are limited to 128 characters.",
+      "evidence": "OATH TOTP SHA-1 tokens that refresh codes every 30 or 60 seconds",
+      "response": "Entra ID supports **OATH TOTP** hardware tokens and does not support OATH HOTP. OATH time-based one-time password (TOTP) is an open standard that specifies how one-time password (OTP) codes are generated, and Microsoft Entra ID doesn't support OATH HOTP, a different code generation standard.[1]\n\nSpecifically, the service accepts tokens that use SHA-1 or SHA-256 and change their codes on a fixed interval. Microsoft Entra ID supports the use of OATH-TOTP SHA-1 and SHA-256 tokens that refresh codes every 30 or 60 seconds.[1]\n\nTokens can come in two forms:\n- **Preprogrammed tokens** ship with their seed already loaded. Hardware OATH tokens typically come with a secret key, or seed, preprogrammed in the token.[2]\n- **Programmable tokens** don't have a seed, so you set one. These programmable hardware tokens can be set up using the secret key or seed obtained from the software token setup flow.[1]\n\nIf you upload keys through CSV, they must meet format rules. Secret keys are limited to 128 characters, which isn't compatible with some tokens. The secret key can only contain the characters a-z or A-Z and digits 2-7, and must be encoded in Base32.[2]\n\nThe results don't say which specific vendors or models are supported.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "OATH tokens authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-oath-tokens",
+          "section": "Hardware OATH tokens (preview) > Improvements in the preview refresh",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-oath-tokens#0",
+          "quotes": [
+            "OATH time-based one-time password (TOTP) is an open standard that specifies how one-time password (OTP) codes are generated. OATH TOTP can be implemented using either software or hardware to generate the codes. Microsoft Entra ID doesn't support OATH HOTP, a different code generation standard.",
+            "Microsoft Entra ID supports the use of OATH-TOTP SHA-1 and SHA-256 tokens that refresh codes every 30 or 60 seconds. Customers can purchase these tokens from the vendor of their choice.",
+            "Some OATH TOTP hardware tokens are programmable, meaning they don't come with a secret key or seed preprogrammed. These programmable hardware tokens can be set up using the secret key or seed obtained from the software token setup flow. Customers can purchase these tokens from the vendor of their choice and use the secret key or seed in their vendor's setup process."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Upload hardware OATH tokens in CSV format",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-mfa-upload-oath-tokens",
+          "section": "CSV format",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-mfa-upload-oath-tokens#0",
+          "quotes": [
+            "Hardware OATH tokens typically come with a secret key, or seed, preprogrammed in the token.\nBefore a user can sign in to their work or school account in Microsoft Entra ID by using a hardware OATH token, an administrator needs to add the token to the tenant.",
+            "Secret keys are limited to 128 characters, which isn't compatible with some tokens. The secret key can only contain the characters *a-z* or *A-Z* and digits *2-7*, and must be encoded in *Base32*."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/how-to-mfa-manage-oath-tokens#0",
+        "identity/authentication/how-to-mfa-manage-oath-tokens#2",
+        "identity/authentication/how-to-mfa-manage-oath-tokens#1",
+        "identity/authentication/how-to-mfa-upload-oath-tokens#0",
+        "identity/authentication/concept-authentication-oath-tokens#0"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 11192,
+      "output_tokens": 840,
+      "cost_usd": 0.0015392000000000001,
+      "retrieval_ms": 22.8,
+      "llm_ms": 3971.6,
+      "total_ms": 3994.6,
+      "verdict": "correct",
+      "judge_reasoning": "The reference says OATH TOTP SHA-1 tokens refreshing every 30 or 60 seconds, with secret keys limited to 128 characters. The answer states OATH TOTP, SHA-1 and SHA-256 (extra correct detail per passage), 30 or 60 seconds, and the 128 character limit. It matches key facts and doesn't contradict. Grounding: all claims are supported by the passages. The 'CSV' mention is not in the passages (passage 2 doesn't mention CSV upload), so the claim 'If you upload keys through CSV' is unsupported. Also 'The results don't say which vendors' is a meta statement, fine, though passage says vendor of choice. The CSV claim is not supported, so grounded is false.",
+      "grounded": false
+    },
+    {
+      "id": "q25",
+      "question": "Can B2B guest users sign in with SMS as their first factor?",
+      "answer": "No, SMS-based authentication isn't supported for B2B accounts.",
+      "evidence": "SMS-based authentication isn't supported for B2B accounts",
+      "response": "No, B2B guest users can't use SMS as a first factor. The known-issues list for SMS sign-in states that SMS-based authentication isn't supported for B2B accounts.[1]\n\nThe results don't say whether guests can use SMS for multifactor authentication or self-service password reset, so I can't answer that part.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "SMS-based user sign-in for Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/howto-authentication-sms-signin",
+          "section": "Enable the SMS-based authentication method",
+          "page": null,
+          "chunk_id": "identity/authentication/howto-authentication-sms-signin#1",
+          "quotes": [
+            "* SMS-based authentication isn't currently compatible with Microsoft Entra multifactor authentication.\n* Except for Teams, SMS-based authentication isn't compatible with native Office applications.\n* SMS-based authentication isn't supported for B2B accounts.\n* Federated users won't authenticate in the home tenant. They only authenticate in the cloud.\n* If a user's default sign-in method is a text or call to your phone number, then the SMS code or voice call is sent automatically during multifactor authentication. As of June 2021, some apps will ask users to choose Text or Call first. This option prevents sending too many security codes for different apps. If the default sign-in method is the Microsoft Authenticator app (which we highly recommend), then the app notification is sent automatically.\n* Cross-tenant synchronization does not support users with SMS sign-in enabled."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/howto-authentication-sms-signin#1",
+        "identity/authentication/how-to-authentication-two-way-sms-unsupported#0",
+        "identity/authentication/howto-authentication-sms-signin#0",
+        "identity/authentication/howto-authentication-temporary-access-pass#3",
+        "identity/authentication/how-to-authentication-methods-manage#3"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8691,
+      "output_tokens": 349,
+      "cost_usd": 0.0010436,
+      "retrieval_ms": 23.3,
+      "llm_ms": 2412.4,
+      "total_ms": 2435.8,
+      "verdict": "correct",
+      "judge_reasoning": "The answer says No, matching the reference that SMS-based authentication isn't supported for B2B accounts. The claim is directly supported by source 1. The added note that the results don't say whether guests can use SMS for MFA or SSPR is a statement about the absence of information, and the passage indeed doesn't address that, so it is not contradicted. Calling it a 'known-issues list' is a mild characterization but consistent with the bulleted limitations.",
+      "grounded": true
+    },
+    {
+      "id": "q26",
+      "question": "How many people can use Windows Hello for Business on the same PC?",
+      "answer": "Up to 10 users per device; it shouldn't be used on kiosk devices with a shared account.",
+      "evidence": "Windows Hello for Business supports up to 10 users per device",
+      "response": "Windows Hello for Business supports up to 10 users per device. Windows Hello for Business supports up to 10 users per device. If your shared devices need to support more users, then use a portable credential instead, such as security keys.[1] The same source notes that Windows Hello for Business should only be used when each user on a PC is signing into that PC as themselves. It shouldn't be used on kiosk devices that use a shared user account.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Plan a phishing-resistant passwordless authentication deployment in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-deploy-phishing-resistant-passwordless-authentication",
+          "section": "Register users for phishing-resistant credentials > Step 3: Bootstrap local credentials",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-deploy-phishing-resistant-passwordless-authentication#4",
+          "quotes": [
+            "Method | Guidance\n-------|---------\nWindows Hello for Business | Use the Cloud Kerberos Trust method to deploy Windows Hello for Business. For more information, see the Cloud Kerberos trust deployment guide. The Cloud Kerberos Trust method applies to any environment where users are synced from on-premises Active Directory to Microsoft Entra ID. It helps synced users on PCs that are either Microsoft Entra joined or Microsoft Entra hybrid joined.Windows Hello for Business should only be used when each user on a PC is signing into that PC as themselves. It shouldn't be used on kiosk devices that use a shared user account.Windows Hello for Business supports up to 10 users per device. If your shared devices need to support more users, then use a portable credential instead, such as security keys.Biometric is optional, but recommended. For more information, see Prepare users to provision and use Windows Hello for Business.\nMicrosoft Entra passkey on Windows | Users will authenticate with Windows Hello (face, fingerprint, or PIN)Users can use Microsoft Entra passkey on Windows on devices that are not Microsoft Entra joined or registeredUsers can sign in to multiple Microsoft Entra accounts on the same Windows device, with each account registering its own passkey.Microsoft Entra passkey on Windows are device-bound and do not sync across devices; each device requires separate registration per Microsoft Entra account.\nPlatform Credential for macOS | Platform Credential for macOS supports 3 different user authentication methods (Secure Enclave key, smart card, and password). Deploy the Secure Enclave key method to mirror your Windows Hello for Business on your Macs.Platform Credential for macOS requires that Macs are enrolled in Mobile Device Management (MDM). For specific instructions for Intune, see Configure Platform Credential for macOS devices in Microsoft Intune.Refer to your MDM vendor’s documentation if you use another MDM service on your Macs.\nPasskey in Microsoft Authenticator | Use same device registration option to bootstrap passkeys in Microsoft Authenticator. Users should use their TAP to sign into Microsoft Authenticator directly on their iOS or Android device.Passkeys need to be enabled in Microsoft Entra ID, in the Authentication methods policy. For more information, see Enable passkeys in Microsoft Authenticator. Register passkeys in Microsoft Authenticator App on Android or iOS devices."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/how-to-deploy-phishing-resistant-passwordless-authentication#4",
+        "identity/authentication/how-to-authentication-entra-passkeys-on-windows#0",
+        "identity/authentication/how-to-authentication-entra-passkeys-on-windows#2",
+        "identity/authentication/concept-system-preferred-authentication#1",
+        "identity/authentication/how-to-register-entra-passkey-windows#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7915,
+      "output_tokens": 169,
+      "cost_usd": 0.000876,
+      "retrieval_ms": 24.3,
+      "llm_ms": 1116.7,
+      "total_ms": 1141.2,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states up to 10 users per device and that it shouldn't be used on kiosk devices with a shared account, matching the reference. The source passage supports all claims, including the portable credential/security keys suggestion and the each-user-signs-in-as-themselves condition. The repeated sentence is only a stylistic flaw.",
+      "grounded": true
+    },
+    {
+      "id": "q27",
+      "question": "In combined MFA and SSPR registration, which methods are users shown by default?",
+      "answer": "The Microsoft Authenticator app and phone.",
+      "evidence": "The user is shown Microsoft Authenticator app and phone by default",
+      "response": "The results give only one example of default methods. In a scenario where a user is enabled for SSPR. The SSPR policy requires two methods to reset and is enabled Microsoft Authenticator app, email, and phone.[1] In that case, the registration prompt presents Microsoft Authenticator and phone first, and the user can choose email instead of one of them.\n\nThe results don't give a general default list. Which methods appear depends on the tenant's Authentication methods policy, as the list of available methods is determined by the Authentication methods policy for the tenant.[2] The flowchart that shows which methods are displayed during sign-in registration isn't included in the excerpts.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Combined registration for SSPR and Microsoft Entra multifactor authentication",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-registration-mfa-sspr-combined",
+          "section": "Combined registration modes > Interrupt mode",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-registration-mfa-sspr-combined#1",
+          "quotes": [
+            "- A user is enabled for SSPR. The SSPR policy requires two methods to reset and is enabled Microsoft Authenticator app, email, and phone.\n- When the user chooses to register, two methods are required:\n- The user is shown Microsoft Authenticator app and phone by default.\n- The user can choose to register email instead of Authenticator app or phone."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Combined registration for SSPR and Microsoft Entra multifactor authentication",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-registration-mfa-sspr-combined",
+          "section": "Combined registration modes > Session controls for Combined Registration",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-registration-mfa-sspr-combined#2",
+          "quotes": [
+            "When they set up Microsoft Authenticator, the user can select I want to setup a different method to register other authentication methods. The list of available methods is determined by the Authentication methods policy for the tenant."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/howto-registration-mfa-sspr-combined#0",
+        "identity/authentication/concept-registration-mfa-sspr-combined#2",
+        "identity/authentication/concept-registration-mfa-sspr-combined#0",
+        "identity/authentication/concept-authentication-methods-manage#1",
+        "identity/authentication/concept-registration-mfa-sspr-combined#1"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 8007,
+      "output_tokens": 738,
+      "cost_usd": 0.0011697,
+      "retrieval_ms": 31.2,
+      "llm_ms": 4025.4,
+      "total_ms": 4056.8,
+      "verdict": "partial",
+      "judge_reasoning": "The answer states that Microsoft Authenticator and phone are shown first in the example scenario, which matches the reference's key fact. It hedges by saying there is no general default list, but the source says 'shown by default' for that scenario. The key facts are present and not contradicted, though the hedging is somewhat stronger than the reference. Grounding: claims are supported by source 1 and 2. The claim that the flowchart isn't included in the excerpts is a statement about absence, not contradicted by the passages. Overall the answer is mostly correct, but the hedge about 'no general default list' makes it somewhat less definite than the reference; I judge it partial.",
+      "grounded": true
+    },
+    {
+      "id": "q28",
+      "question": "What happens to Conditional Access policies if Entra ID has an outage?",
+      "answer": "The Backup Authentication Service takes over; resilience defaults are enabled for all policies by default, but it can't evaluate all conditions in real time.",
+      "evidence": "By default, resilience defaults are enabled for all policies",
+      "response": "During an Entra ID outage, the Backup Authentication Service takes over, and its behavior depends on whether the user already has a session.\n\n- **New sign-ins are blocked.** The backup service doesn't support new sessions or authentications by guest users.[1]\n- **Existing sessions can continue.** When an existing session needs a new token, all Conditional Access policies are reevaluated. If there are no Conditional Access policies, or if all the required controls, such as MFA, were satisfied at the beginning of the session, the Backup Authentication Service issues a new access token to extend the session.[1]\n- **Some conditions can't be rechecked.** If a policy's controls weren't satisfied earlier in the session, the policy is reevaluated, but not all conditions can be reevaluated in real time during an outage. These conditions include:[1] group membership, role membership, sign-in risk, user risk, country/region location, and authentication strengths (the list in the source[1]).\n- **Resilience defaults decide the gap.** Conditional Access resilience defaults are a new session control that let admins decide between[1] blocking authentications whenever a policy condition can't be evaluated in real time, or allowing policies to be evaluated using data collected at the beginning of the user's session.[1]\n- **Defaults are on.** Resilience defaults are automatically enabled for all new and existing policies. Microsoft recommends keeping the resilience defaults enabled to reduce the impact of an outage. Admins can disable resilience defaults for individual Conditional Access policies.[1]\n- **Phishing-resistant requirements may not be enforced.** When active, the Backup Authentication Service doesn't evaluate authentication methods required by authentication strengths.[1] A user who signed in with a non-phishing-resistant method before the outage may not be prompted for MFA during it, even for a resource requiring phishing-resistant authentication.\n\nThe results don't say whether policies are changed or disabled during an outage, or how the service behaves beyond these cases.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Resilience defaults for Microsoft Entra Conditional Access",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/resilience-defaults",
+          "section": "How does it work",
+          "page": null,
+          "chunk_id": "identity/conditional-access/resilience-defaults#0",
+          "quotes": [
+            "If the primary authentication service is unavailable, the Microsoft Entra Backup Authentication Service automatically issues access tokens to applications for existing sessions. This functionality significantly improves Microsoft Entra resilience because reauthentications for existing sessions account for more than 90% of authentications to Microsoft Entra ID. The Backup Authentication Service doesn't support new sessions or authentications by guest users.",
+            "When an existing session expires during a Microsoft Entra outage, the request for a new access token routes to the Backup Authentication Service, and all Conditional Access policies are reevaluated. If there are no Conditional Access policies, or if all the required controls, such as MFA, were satisfied at the beginning of the session, the Backup Authentication Service issues a new access token to extend the session.",
+            "If the required controls of a policy weren't previously satisfied, the policy is reevaluated to determine whether access should be granted or denied. Not all conditions can be reevaluated in real time during an outage. These conditions include:",
+            "- Group membership\n- Role membership\n- Sign-in risk\n- User risk\n- Country/region location (resolving new IP or GPS coordinates)\n- Authentication strengths",
+            "During an outage, the Backup Authentication Service can't evaluate all conditions in real time to determine whether a Conditional Access policy applies. Conditional Access resilience defaults are a new session control that let admins decide between:",
+            "- Whether to block authentications during an outage whenever a policy condition can’t be evaluated in real-time.\n- Allow policies to be evaluated using data collected at the beginning of the user’s session.",
+            "Resilience defaults are automatically enabled for all new and existing policies. Microsoft recommends keeping the resilience defaults enabled to reduce the impact of an outage. Admins can disable resilience defaults for individual Conditional Access policies.",
+            "When active, the Backup Authentication Service doesn't evaluate authentication methods required by authentication strengths. If you used a non-phishing-resistant authentication method before an outage, during an outage you aren't prompted for multifactor authentication even if accessing a resource protected by a Conditional Access policy with a phishing-resistant authentication strength."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/resilience-defaults#0",
+        "identity/conditional-access/plan-conditional-access#6",
+        "identity/conditional-access/plan-conditional-access#0",
+        "identity/conditional-access/overview#1",
+        "identity/conditional-access/policy-all-users-persistent-browser#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": false,
+      "input_tokens": 6704,
+      "output_tokens": 1181,
+      "cost_usd": 0.0012609000000000001,
+      "retrieval_ms": 30.4,
+      "llm_ms": 5044.5,
+      "total_ms": 5075.2,
+      "verdict": "correct",
+      "judge_reasoning": "The answer covers the key facts in the reference: the Backup Authentication Service takes over, resilience defaults are enabled by default for all new and existing policies, and not all conditions can be evaluated in real time. It adds correct detail about existing sessions and guest users. One grounding issue: the claim \"New sign-ins are blocked\" overstates the source, which says only that the service doesn't support new sessions or authentications by guest users, not all new sign-ins. The source doesn't say new sign-ins in general are blocked. That is an unsupported claim, so the answer is not fully grounded. It is also somewhat inaccurate, but the answer still states the reference's key facts without contradicting them, so it counts as correct overall.",
+      "grounded": false
+    },
+    {
+      "id": "q29",
+      "question": "If I create a Conditional Access policy from a template, is it enforced right away?",
+      "answer": "No, by default each policy created from a template is in report-only mode.",
+      "evidence": "each policy is created in report-only mode",
+      "response": "No. By default, each policy is created in report-only mode. Test and monitor usage to ensure the intended result before turning on each policy.[1]\n\nIf you create the policy from a policy plan template instead, the initial State for all rules generated by a template is Off to prevent unintended impact to your organization.[2] To enable it safely:\n\n1. Before enabling, select Edit plan. Select Add Users > Exclude to add your organization's emergency access accounts and any service accounts that must be excluded from every rule in the plan.[2]\n2. For each rule, change State from Off to Report-only. Report-only mode lets you validate the effect in sign-in logs before enforcement begins.[2]\n3. After you review the effect by using report-only mode, return to each rule, set State to On, and save your changes.[2]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Conditional Access Templates: Simplify Security",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-policy-common",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-conditional-access-policy-common#0",
+          "quotes": [
+            "By default, each policy is created in report-only mode. Test and monitor usage to ensure the intended result before turning on each policy."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Create a Conditional Access policy plan (preview)",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/how-to-create-conditional-access-policy-plan",
+          "section": "Create a policy plan from a template",
+          "page": null,
+          "chunk_id": "identity/conditional-access/how-to-create-conditional-access-policy-plan#0",
+          "quotes": [
+            "1. Sign in to the Microsoft Entra admin center as at least a Conditional Access Administrator.\n1. Browse to Entra ID > Conditional Access > Policy plans (Preview).\n1. Select Create policy from template.\n1. Browse the available templates, select Use template for one or more templates, and then select Create plan.\n1. On the Create plan from templates tab, customize the name if needed. Under Shared conditions, review any prepopulated targeting, and then select Create policy plan. The initial State for all rules generated by a template is Off to prevent unintended impact to your organization.\n1. After the plan is created, select Edit plan. Select Add Users > Exclude to add your organization's emergency access accounts and any service accounts that must be excluded from every rule in the plan. Modify any other shared conditions as needed.\n1. In the Rules list, review the prepopulated rules. Select a rule to edit its name, conditions, or grant controls. Each rule is evaluated independently at sign-in time.\n1. For each rule, change State from Off to Report-only. Report-only mode lets you validate the effect in sign-in logs before enforcement begins.",
+            "After you review the effect by using report-only mode, return to each rule, set State to On, and save your changes."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/concept-conditional-access-policy-common#1",
+        "identity/conditional-access/how-to-create-conditional-access-policy-plan#0",
+        "identity/conditional-access/policy-guests-mfa-strength#1",
+        "identity/conditional-access/concept-conditional-access-policy-common#0",
+        "identity/conditional-access/concept-conditional-access-policies#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6822,
+      "output_tokens": 721,
+      "cost_usd": 0.0010427000000000001,
+      "retrieval_ms": 37.9,
+      "llm_ms": 3520.3,
+      "total_ms": 3558.4,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states 'No' and that by default each policy is created in report-only mode, matching the reference. The extra detail about policy plan templates (initial state Off) is supported by source 2, and the steps are all in the passage. It does not contradict the reference, though it introduces a slightly different state (Off) for plan templates, but this is grounded in the passage. All claims are supported by the cited sources.",
+      "grounded": true
+    },
+    {
+      "id": "q30",
+      "question": "How many authentication contexts can we define for Conditional Access?",
+      "answer": "Up to 99 authentication context definitions (c1–c99).",
+      "evidence": "up to 99 authentication context definitions",
+      "response": "Your organization can define up to 99 authentication contexts. Each one is identified by an ID from c1 to c99, and you create them from Entra ID > Conditional Access > Authentication context Manage authentication contexts by going to Entra ID > Conditional Access > Authentication context. Select New authentication context to create an authentication context definition. Organizations can create up to 99 authentication context definitions (c1-c99).[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Targeting Resources in Conditional Access Policies",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-conditional-access-cloud-apps",
+          "section": "Authentication context > Configure authentication contexts",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-conditional-access-cloud-apps#5",
+          "quotes": [
+            "Manage authentication contexts by going to Entra ID > Conditional Access > Authentication context.Select New authentication context to create an authentication context definition. Organizations can create up to 99 authentication context definitions (c1-c99). Configure these attributes:"
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/concept-conditional-access-cloud-apps#5",
+        "identity/conditional-access/policy-guests-mfa-strength#0",
+        "identity/conditional-access/concept-condition-filters-for-devices#0",
+        "identity/conditional-access/policy-guests-mfa-strength#1",
+        "identity/conditional-access/concept-conditional-access-policies#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6845,
+      "output_tokens": 297,
+      "cost_usd": 0.000833,
+      "retrieval_ms": 22.0,
+      "llm_ms": 1803.6,
+      "total_ms": 1825.7,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states up to 99 authentication contexts, IDs c1-c99, matching the reference. The claims about the navigation path and creating via New authentication context are supported by the passage. The answer has some repetitive text but no contradictions.",
+      "grounded": true
+    },
+    {
+      "id": "q31",
+      "question": "What's the character limit for a filter for devices rule?",
+      "answer": "3072 characters.",
+      "evidence": "The maximum length for the filter rule is 3072 characters",
+      "response": "The limit is 3072 characters. When building complex rules or using too many individual identifiers like deviceid for device identities, keep in mind \"The maximum length for the filter rule is 3072 characters\".[1] Rules with many device IDs or complex logic can approach that ceiling, so check length before saving.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Filter for devices as a condition in Conditional Access policy",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/concept-condition-filters-for-devices",
+          "section": "Policy behavior with filter for devices",
+          "page": null,
+          "chunk_id": "identity/conditional-access/concept-condition-filters-for-devices#4",
+          "quotes": [
+            "When building complex rules or using too many individual identifiers like deviceid for device identities, keep in mind \"The maximum length for the filter rule is 3072 characters\"."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/concept-condition-filters-for-devices#4",
+        "identity/conditional-access/concept-condition-filters-for-devices#3",
+        "identity/conditional-access/concept-condition-filters-for-devices#2",
+        "identity/conditional-access/concept-conditional-access-conditions#5",
+        "identity/conditional-access/concept-condition-filters-for-devices#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7727,
+      "output_tokens": 187,
+      "cost_usd": 0.0008662,
+      "retrieval_ms": 22.4,
+      "llm_ms": 1423.6,
+      "total_ms": 1446.1,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states 3072 characters, matching the reference. The cited passage supports the limit and the context about complex rules and device identifiers. The added claims that rules with many device IDs or complex logic can approach the ceiling is a mild inference supported by the passage's framing; the advice to check length before saving is a suggestion, not a factual claim.",
+      "grounded": true
+    },
+    {
+      "id": "q32",
+      "question": "In a brand-new tenant, which methods are turned on in the Authentication methods policy?",
+      "answer": "None: a new tenant has all methods Off by default.",
+      "evidence": "A new tenant has all methods Off by default",
+      "response": "Per Microsoft's documentation, a new tenant starts with every method in the Authentication methods policy disabled. A new tenant has all methods Off by default, which makes migration easier because legacy policy settings don't need to be merged with existing settings.[1]\n\nTo check the current state, go to Entra ID > Authentication methods > Policies.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "How to migrate to the Authentication methods policy",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-authentication-methods-manage",
+          "section": "Manual migration > Authentication methods policy",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-authentication-methods-manage#1",
+          "quotes": [
+            "To check settings in the Authentication methods policy, sign in to the Microsoft Entra admin center as at least an Authentication Policy Administrator and browse to Entra ID > Authentication methods > Policies. A new tenant has all methods Off by default, which makes migration easier because legacy policy settings don't need to be merged with existing settings."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/how-to-authentication-methods-manage#2",
+        "identity/authentication/concept-authentication-methods-manage#0",
+        "identity/authentication/how-to-authentication-methods-manage#1",
+        "identity/authentication/how-to-authentication-methods-manage#0",
+        "identity/authentication/howto-authentication-passwordless-phone#2"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7755,
+      "output_tokens": 326,
+      "cost_usd": 0.0009385,
+      "retrieval_ms": 30.5,
+      "llm_ms": 2107.5,
+      "total_ms": 2138.1,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states that a new tenant has all methods disabled/Off by default, matching the reference (none are on). The claims about the navigation path and the migration rationale are both present in source 1. The phrase 'Per Microsoft's documentation' is a mild framing but consistent with the source.",
+      "grounded": true
+    },
+    {
+      "id": "q33",
+      "question": "Does SSPR password writeback work while staged rollout is enabled?",
+      "answer": "SSPR with writeback to on-premises isn't supported when staged rollout is enabled for a security group; it can't be guaranteed to work consistently.",
+      "evidence": "isn't supported when staged rollout is enabled",
+      "response": "No. The documentation says that SSPR with writeback to an on-premises domain isn't supported when staged rollout is enabled for a security group.[1] It adds that although writeback works in some cases, SSPR can't be guaranteed to work consistently when staged rollout is enabled.[1]\n\nFor helpdesk purposes, don't expect password changes made through SSPR to reach on-premises AD for users in a staged rollout group. The results don't say how to work around this or whether a different configuration would change it.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "On-premises password writeback with self-service password reset",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-sspr-writeback",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-sspr-writeback#0",
+          "quotes": [
+            "SSPR with writeback to an on-premises domain isn't supported when staged rollout is enabled for a security group. Although it works in some cases, SSPR can't be guaranteed to work consistently when staged rollout is enabled."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-sspr-writeback#0",
+        "identity/authentication/concept-sspr-writeback#4",
+        "identity/authentication/concept-sspr-writeback#1",
+        "identity/authentication/concept-sspr-deploy#0",
+        "identity/authentication/tutorial-enable-sspr#3"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 6705,
+      "output_tokens": 523,
+      "cost_usd": 0.000932,
+      "retrieval_ms": 30.7,
+      "llm_ms": 3378.9,
+      "total_ms": 3409.9,
+      "verdict": "correct",
+      "judge_reasoning": "The answer matches the reference: SSPR with writeback isn't supported with staged rollout for a security group, and consistency can't be guaranteed. The source passage supports both claims. The added helpdesk advice (don't expect changes to reach on-prem AD) is a reasonable inference, and the statement that results don't say a workaround is accurate to the passage. Slight overreach: 'writeback works in some cases' is in the source, and the passage says 'SSPR ... works in some cases', fine.",
+      "grounded": true
+    },
+    {
+      "id": "q34",
+      "question": "Can users see the custom security attributes on their own profile?",
+      "answer": "No, users can't view custom security attributes assigned to their own profile or to other users.",
+      "evidence": "Users can't view the custom security attributes assigned to their own profile",
+      "response": "No, users can't see their own custom security attributes. Viewing rights are restricted to admins holding the Attribute Assignment Administrator or Attribute Assignment Reader role at tenant scope, and that restriction also excludes a person's view of their own attribute values Only users that have been assigned the Attribute Assignment Administrator or Attribute Assignment Reader roles at tenant scope can view custom security attributes assigned to any users in the tenant. Users can't view the custom security attributes assigned to their own profile or other users.[1] Guest accounts are also excluded: Guests can't view the custom security attributes regardless of the guest permissions set on the tenant.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Assign, update, list, or remove custom security attributes for a user",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/users/users-custom-security-attributes",
+          "section": "Frequently asked questions",
+          "page": null,
+          "chunk_id": "identity/users/users-custom-security-attributes#5",
+          "quotes": [
+            "Only users that have been assigned the Attribute Assignment Administrator or Attribute Assignment Reader roles at tenant scope can view custom security attributes assigned to any users in the tenant. Users can't view the custom security attributes assigned to their own profile or other users. Guests can't view the custom security attributes regardless of the guest permissions set on the tenant."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/users/users-custom-security-attributes#5",
+        "identity/users/users-custom-security-attributes#4",
+        "identity/users/users-custom-security-attributes#3",
+        "identity/users/users-custom-security-attributes#2",
+        "identity/users/users-custom-security-attributes#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 16537,
+      "output_tokens": 627,
+      "cost_usd": 0.0019672,
+      "retrieval_ms": 20.3,
+      "llm_ms": 3346.7,
+      "total_ms": 3367.2,
+      "verdict": "correct",
+      "judge_reasoning": "The answer says users can't see their own custom security attributes, matching the reference. It adds details about the Attribute Assignment Administrator/Reader roles at tenant scope and guests being excluded, all of which appear in the cited passage. The only slightly interpretive phrasing is 'admins holding...', but the passage says 'users that have been assigned' those roles, which is consistent. No contradictions.",
+      "grounded": true
+    },
+    {
+      "id": "q35",
+      "question": "A user restored Authenticator from a backup on a new phone and their work account says 'Sign in to add your account'. Is something wrong?",
+      "answer": "No, that's expected: only the account name is restored for work or school accounts, so the user has to open the account and sign in again to finish setup.",
+      "evidence": "Only the account name is restored",
+      "response": "No, this is usually expected. For work or school accounts, a restore brings back only the account name, so the user has to sign in again to finish setup. The red \"Sign in to add your account\" message appears in that situation. Expected for work or school accounts after restore. Open the account and sign in again.[1]\n\n**Steps for the helpdesk agent:**\n1. Have the user open the account in Authenticator and sign in again.\n2. Ask the user to keep the old phone until they've confirmed they can sign in to their key accounts from the new one. Keep your old phone until you confirm that you can sign in to the accounts and resources you use most often from the new phone.[2]\n\n**If the account doesn't come back or the backup won't restore:** Verify backup was enabled on the old phone, you're using the same recovery account, and you're restoring to the same device type.[1]\n\n**Passkeys are separate.** Passkeys are handled separately from Authenticator account backup.[2] If a passkey was saved only to the old phone, the user needs a new one on the new phone.\n\nThe results don't cover the user's specific tenant policies, so if sign-in still fails, check with the IT admin.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Transfer Microsoft Authenticator to a new phone",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-transfer-authenticator-new-phone",
+          "section": "Troubleshoot common issues",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-transfer-authenticator-new-phone#1",
+          "quotes": [
+            "| Issue | Resolution |\n|---|---|\n| \"Sign in to add your account.\" | Expected for work or school accounts after restore. Open the account and sign in again. |\n| Restore from backup isn't available. | Verify backup was enabled on the old phone, you're using the same recovery account, and you're restoring to the same device type. |\n| No passkeys are available. | Ensure the new phone has a screen lock enabled and that Bluetooth and internet connectivity are available for cross-device sign-in. |\n| A passkey can no longer be used. | Create a new passkey and remove obsolete passkeys only after the new method is working. |"
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Transfer Microsoft Authenticator to a new phone",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-transfer-authenticator-new-phone",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-transfer-authenticator-new-phone#0",
+          "quotes": [
+            "Keep your old phone until you confirm that you can sign in to the accounts and resources you use most often from the new phone.",
+            "For work or school accounts, backup and restore transfers the account name so you can recognize the account on the new phone. You still need to sign in again to complete setup. Passkeys are handled separately from Authenticator account backup. If a passkey was saved only to the old phone, add a new passkey for the new phone. If a passkey was saved to a synced credential manager, it might be available after you sign in to that credential manager."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/how-to-transfer-authenticator-new-phone#1",
+        "identity/authentication/how-to-transfer-authenticator-new-phone#0",
+        "identity/authentication/howto-authentication-passwordless-phone#2",
+        "identity/authentication/howto-authentication-passwordless-phone#1",
+        "identity/authentication/howto-authentication-passwordless-phone#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": false,
+      "input_tokens": 7463,
+      "output_tokens": 844,
+      "cost_usd": 0.0011683000000000002,
+      "retrieval_ms": 36.2,
+      "llm_ms": 4351.7,
+      "total_ms": 4388.0,
+      "verdict": "correct",
+      "judge_reasoning": "The answer matches the reference: expected behavior, only account name restored for work/school accounts, user must sign in again. Extra details (keep old phone, backup troubleshooting, passkeys) are supported by the passages. Minor unsupported detail: 'red' message color is not in the sources, and 'check with the IT admin' about tenant policies is not sourced but is a caveat rather than a factual claim. The word 'red' is an unsupported factual claim, so grounding fails.",
+      "grounded": false
+    },
+    {
+      "id": "q36",
+      "question": "Account recovery can't match a user against the identity verification provider. What should I check on the user object?",
+      "answer": "That the First Name and Last Name properties aren't blank; if either is blank, account recovery can't match the provider's claims.",
+      "evidence": "If the First Name or Last Name properties are blank",
+      "response": "The user object's **First name and Last name** properties are the main thing to check. By default, account recovery matches identity claims from the verification provider against the user's First name and Last name properties in Microsoft Entra ID.[1] A mismatch can block ownership validation. Differences such as \"John\" versus \"Jonathan\", or complex surnames, might cause these issues.[2]\n\nSuggested checks:\n\n1. **Compare the name fields to the government ID.** Confirm the first and last names on the user object match the ID the user presented.\n2. **Correct any mismatch.** Admins can resolve this during the preview by updating profile information.[2]\n3. **Review the match setting on the profile.** Exact — Claims must match exactly. Relaxed — Allows minor variations in name matching.[1] This is set on the identity verification profile, not the user, so it's a second place to look if names are close but not identical.\n4. **Confirm the user is in the profile's group.** If they aren't part of the selected group, then they won't be offered the recovery task during login.[2]\n\nThe results don't cover whether the user's other profile attributes affect matching beyond name fields, unless a custom authentication extension is configured.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Account Recovery Overview in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-account-recovery-overview",
+          "section": "Identity verification profiles > Account validation and custom authentication extensions",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-account-recovery-overview#2",
+          "quotes": [
+            "By default, account recovery matches identity claims from the verification provider against the user's First name and Last name properties in Microsoft Entra ID. Admins can configure the match confidence level:",
+            "- Exact — Claims must match exactly.\n- Relaxed — Allows minor variations in name matching."
+          ]
+        },
+        {
+          "n": 2,
+          "title": "Perform Account Recovery in Microsoft Entra ID",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/how-to-account-recovery-for-users",
+          "section": "Troubleshooting > Errors when completing Face Check",
+          "page": null,
+          "chunk_id": "identity/authentication/how-to-account-recovery-for-users#1",
+          "quotes": [
+            "After the user has shared their Verified ID with Microsoft Entra, we attempt an account validation and match against the verified claims in the ID issued by your Identity Verification Provider. This error may be present when account ownership couldn't be confirmed—often due to mismatches between the first and last names in the user's profile and those on the ID. Differences such as \"John\" versus \"Jonathan\", or complex surnames, might cause these issues. Admins can resolve this during the preview by updating profile information. Another possible cause is improper Temporary Access Pass issuance group configuration for users in recovery. Check the Authentication methods policy and confirm that users in scope for recovery are also enabled for the Temporary Access Pass method.",
+            "If you still don't see the Recover your account when you sign in later, make sure that the group you include in the account recovery profile (for example, Engineering) has all the users you want to allow for self-service recovery in it. If they aren't part of the selected group, then they won't be offered the recovery task during login."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/overview-authentication#1",
+        "identity/authentication/how-to-account-recovery-for-users#1",
+        "identity/authentication/concept-account-recovery-overview#2",
+        "identity/authentication/how-to-account-recovery-for-users#0",
+        "identity/authentication/concept-account-recovery-overview#1"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 7354,
+      "output_tokens": 771,
+      "cost_usd": 0.0011209000000000002,
+      "retrieval_ms": 36.6,
+      "llm_ms": 3957.5,
+      "total_ms": 3994.3,
+      "verdict": "partial",
+      "judge_reasoning": "The reference's key fact: check that First Name and Last Name properties aren't blank. The answer identifies First name and Last name as the properties to check, but frames it as mismatch with the ID rather than blank values, never mentioning blank. So it misses the essential 'not blank' point, though it doesn't contradict it. Partial. Grounding: claims about name matching, exact/relaxed, mismatches, admin fix, group membership are supported by passages. The statement 'set on the identity verification profile, not the user' is an inference not explicitly in passages (passage says admins can configure match confidence level). The closing sentence about custom authentication extension is not supported by the passages. So not fully grounded.",
+      "grounded": false
+    },
+    {
+      "id": "q37",
+      "question": "Do users get the app name and location in their MFA prompt when signing in through the NPS extension?",
+      "answer": "No, additional context isn't supported for the NPS extension or AD FS.",
+      "evidence": "Additional context isn't supported for Network Policy Server",
+      "response": "I don't know. The results don't say whether the NPS extension sign-in prompt shows the application name or location. They describe the Authenticator push prompt in general, and they mention NPS only in the context of sign-in logs.\n\n- For Authenticator approval requests, the app's name and an IP-based location are the details an approver can see when a user receives a passwordless phone sign-in or multifactor authentication (MFA) push notification in Authenticator[1]. This article doesn't say whether that applies to requests that come through NPS.\n- For NPS, the results cover logging rather than the prompt. Organizations that run the latest version of NPS extension or use Microsoft Entra Connect Health will have location IP address in events.[2]\n- Admins should also confirm targeting. Only users who are enabled for Authenticator under `includeTargets` see the application name or geographic location.[1]\n\nTo confirm the NPS prompt behavior, check Microsoft's documentation for the NPS extension or test with a user in scope.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/authentication/how-to-mfa-number-match#1",
+        "identity/authentication/how-to-mfa-number-match#0",
+        "identity/authentication/howto-mfa-reporting#2",
+        "identity/conditional-access/how-to-migrate-custom-controls-external-mfa#3",
+        "identity/authentication/how-to-mfa-additional-context#0"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 9401,
+      "output_tokens": 934,
+      "cost_usd": 0.0014070999999999999,
+      "retrieval_ms": 31.4,
+      "llm_ms": 5082.6,
+      "total_ms": 5114.2,
+      "verdict": "incorrect",
+      "judge_reasoning": "said it doesn't know (false refusal)"
+    },
+    {
+      "id": "q38",
+      "question": "Can an admin look up a user's answers to their password reset security questions?",
+      "answer": "No, administrators can't see, set, or modify another user's security questions and answers.",
+      "evidence": "Administrators can't see, set, or modify the contents of another user's questions and answers",
+      "response": "No. The results say an administrator has no way to view or change a user's security questions or answers. Security questions are stored privately and securely on a user object in the directory and can only be answered by users during registration.[1]\n\nSecurity questions are also being phased out for SSPR. Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027.[1] Helpdesk staff should make sure affected users have other supported methods registered before then.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Security questions authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-security-questions",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-security-questions#0",
+          "quotes": [
+            "Security questions are stored privately and securely on a user object in the directory and can only be answered by users during registration. There's no way for an administrator to read or modify a user's questions or answers.",
+            "Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027. After that date, users will no longer be able to reset passwords using security questions. Ensure users are set up with supported authentication methods in the Authentication methods policy.\nThis feature is being deprecated due to security risks and low reliability. Security questions are often guessable or susceptible to social engineering, increasing the risk of account takeover during SSPR. Stronger verification methods improve security and reduce reset failures and support escalations.\nPrepare in advance to avoid user lockouts, helpdesk escalations, and failed password reset experiences once enforcement begins in March 2027."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-authentication-security-questions#0",
+        "identity/authentication/howto-sspr-reporting#0",
+        "identity/authentication/troubleshoot-sspr#4",
+        "identity/authentication/troubleshoot-sspr#3",
+        "identity/authentication/tutorial-enable-sspr#2"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 6924,
+      "output_tokens": 447,
+      "cost_usd": 0.0009159000000000001,
+      "retrieval_ms": 31.0,
+      "llm_ms": 2938.2,
+      "total_ms": 2969.4,
+      "verdict": "correct",
+      "judge_reasoning": "The answer says No, an admin cannot view or change a user's security questions or answers, which matches the reference. The extra details (private storage, answerable only by users during registration, retirement in March 2027, advice to register other methods) are all supported by the passage. The helpdesk advice follows from the passage's instruction to ensure users have supported methods.",
+      "grounded": true
+    },
+    {
+      "id": "q39",
+      "question": "Without any Conditional Access policy, do users need MFA to register a passkey?",
+      "answer": "Yes, MFA is still required by default to register passwordless credentials, whether or not a Conditional Access policy is configured.",
+      "evidence": "MFA is still required by default to register passwordless credentials",
+      "response": "The results indicate that MFA is still required for passwordless enrollment even without a Conditional Access policy. MFA is still required by default to register passwordless credentials, regardless of whether a Conditional Access policy is configured.[1]\n\nThe results don't say whether this applies to passkeys specifically. They don't mention passkeys by name, so confirm the behavior for passkey registration in Microsoft's current documentation before telling the user.",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Control security information registration with Conditional Access",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/conditional-access/policy-all-users-security-info-registration",
+          "section": "Create a policy to secure registration",
+          "page": null,
+          "chunk_id": "identity/conditional-access/policy-all-users-security-info-registration#0",
+          "quotes": [
+            "Starting July 6, 2026, Conditional Access policies that target Register security information will apply during Windows Hello for Business and macOS Platform SSO credential registration. Today, these registration flows don't evaluate registration-targeting Conditional Access policies. However, MFA is still required by default to register passwordless credentials — regardless of whether a Conditional Access policy is configured. After enforcement, users registering Windows Hello for Business or macOS Platform SSO credentials must also satisfy your policy's Grant controls — such as authentication strength, trusted locations, or a specific MFA method — before completing enrollment. Review your policies scoped to Register security information and test with report-only mode before enforcement begins."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/conditional-access/policy-old-require-mfa-admin#0",
+        "identity/conditional-access/policy-all-users-security-info-registration#0",
+        "identity/conditional-access/policy-all-users-mfa-strength#0",
+        "identity/authentication/howto-mfa-userstates#0",
+        "identity/conditional-access/policy-all-users-device-registration#0"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7445,
+      "output_tokens": 640,
+      "cost_usd": 0.0010645,
+      "retrieval_ms": 38.3,
+      "llm_ms": 3440.6,
+      "total_ms": 3479.1,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states that MFA is still required by default to register passwordless credentials regardless of Conditional Access configuration, matching the reference. The caveat about passkeys not being named is extra hedging, but the core answer is definite and consistent with the reference. The claims are supported by the passage, which says MFA is required by default to register passwordless credentials regardless of Conditional Access, and does not mention passkeys by name.",
+      "grounded": true
+    },
+    {
+      "id": "q40",
+      "question": "Why can't I delete one of our named locations?",
+      "answer": "Locations marked as trusted can't be deleted until the trusted designation is removed.",
+      "evidence": "Locations marked as trusted can't be deleted without first removing the trusted designation",
+      "response": "I don't know. The search results only cover deleting custom domain names, Microsoft Entra tenants, and self-service sign-up products, and they don't mention named locations or Conditional Access.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/users/domains-manage#2",
+        "identity/users/domains-manage#1",
+        "identity/users/directory-delete-howto#0",
+        "identity/users/directory-delete-howto#3",
+        "identity/users/directory-delete-howto#2"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 8307,
+      "output_tokens": 147,
+      "cost_usd": 0.0009042000000000001,
+      "retrieval_ms": 29.3,
+      "llm_ms": 1402.8,
+      "total_ms": 1432.3,
+      "verdict": "incorrect",
+      "judge_reasoning": "said it doesn't know (false refusal)"
+    },
+    {
+      "id": "q41",
+      "question": "Can admins add security questions as a password reset method for themselves?",
+      "answer": "No, administrator accounts can't use security questions as a verification method for SSPR.",
+      "evidence": "Administrator accounts can't use security questions as verification method with SSPR",
+      "response": "No. The search results say that Administrator accounts can't use security questions as verification method with SSPR.[1] Security questions can otherwise be used during SSPR, but only as a registration choice made by the user, and there's no way for an administrator to read or modify a user's questions or answers.[1]\n\nThe results also note that security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027.[1]",
+      "answered": true,
+      "sources": [
+        {
+          "n": 1,
+          "title": "Security questions authentication method",
+          "url": "https://learn.microsoft.com/en-us/entra/identity/authentication/concept-authentication-security-questions",
+          "section": "",
+          "page": null,
+          "chunk_id": "identity/authentication/concept-authentication-security-questions#0",
+          "quotes": [
+            "Security questions aren't used as an authentication method during a sign-in event. Instead, security questions can be used during the self-service password reset (SSPR) process to confirm who you are. Administrator accounts can't use security questions as verification method with SSPR.",
+            "Security questions are stored privately and securely on a user object in the directory and can only be answered by users during registration. There's no way for an administrator to read or modify a user's questions or answers.",
+            "Security questions will be retired for Self‑Service Password Reset (SSPR) in March 2027. After that date, users will no longer be able to reset passwords using security questions. Ensure users are set up with supported authentication methods in the Authentication methods policy.\nThis feature is being deprecated due to security risks and low reliability. Security questions are often guessable or susceptible to social engineering, increasing the risk of account takeover during SSPR. Stronger verification methods improve security and reduce reset failures and support escalations.\nPrepare in advance to avoid user lockouts, helpdesk escalations, and failed password reset experiences once enforcement begins in March 2027."
+          ]
+        }
+      ],
+      "retrieved": [
+        "identity/authentication/concept-authentication-security-questions#0",
+        "identity/authentication/howto-sspr-reporting#0",
+        "identity/authentication/concept-sspr-howitworks#4",
+        "identity/authentication/howto-sspr-customization#0",
+        "identity/authentication/troubleshoot-sspr#4"
+      ],
+      "retrieved_evidence": true,
+      "cited_evidence": true,
+      "input_tokens": 7214,
+      "output_tokens": 180,
+      "cost_usd": 0.0008114000000000001,
+      "retrieval_ms": 41.2,
+      "llm_ms": 1389.1,
+      "total_ms": 1430.5,
+      "verdict": "correct",
+      "judge_reasoning": "The answer states No, administrator accounts can't use security questions with SSPR, matching the reference. Extra details (users answer during registration, admins can't read/modify, retirement March 2027) are all supported by the passage. The phrase 'only as a registration choice made by the user' is a slight paraphrase of 'can only be answered by users during registration', which is close enough.",
+      "grounded": true
+    },
+    {
+      "id": "u01",
+      "question": "How do I reset a user's password in Google Workspace?",
+      "answer": null,
+      "evidence": null,
+      "response": "I don't know. The search results cover Microsoft Entra self-service password reset, password policies, SSPR troubleshooting, and password writeback, but nothing about Google Workspace.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/authentication/tutorial-enable-sspr#2",
+        "identity/authentication/tutorial-password-policy-overview-frequently-asked-questions#3",
+        "identity/authentication/troubleshoot-sspr#4",
+        "identity/authentication/concept-sspr-howitworks#0",
+        "identity/authentication/troubleshoot-sspr-writeback#11"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 7697,
+      "output_tokens": 60,
+      "cost_usd": 0.0007997000000000001,
+      "retrieval_ms": 33.1,
+      "llm_ms": 1091.4,
+      "total_ms": 1124.7,
+      "verdict": "correct"
+    },
+    {
+      "id": "u02",
+      "question": "What is the maximum mailbox size in Exchange Online?",
+      "answer": null,
+      "evidence": null,
+      "response": "I don't know. The search results cover Conditional Access client app conditions, custom domain deletion, bulk user downloads, and continuous access evaluation, but not Exchange Online mailbox size limits.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/conditional-access/concept-conditional-access-conditions#2",
+        "identity/users/domains-manage#2",
+        "identity/users/users-bulk-download#0",
+        "identity/conditional-access/concept-continuous-access-evaluation#1",
+        "identity/users/domains-manage#1"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 8328,
+      "output_tokens": 66,
+      "cost_usd": 0.0008658000000000001,
+      "retrieval_ms": 28.3,
+      "llm_ms": 1101.1,
+      "total_ms": 1129.5,
+      "verdict": "correct"
+    },
+    {
+      "id": "u03",
+      "question": "How do I recover a deleted Microsoft Teams chat message?",
+      "answer": null,
+      "evidence": null,
+      "response": "I don't know. The search results only cover restoring deleted Microsoft 365 groups, cloud security groups, and users, plus group expiration settings, and say nothing about Microsoft Teams chat messages.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/users/groups-restore-deleted#0",
+        "identity/users/groups-restore-deleted#1",
+        "identity/users/groups-lifecycle#2",
+        "identity/users/groups-lifecycle#1",
+        "identity/users/users-bulk-restore#0"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 8208,
+      "output_tokens": 185,
+      "cost_usd": 0.0009133,
+      "retrieval_ms": 40.1,
+      "llm_ms": 1795.1,
+      "total_ms": 1835.3,
+      "verdict": "correct"
+    },
+    {
+      "id": "u04",
+      "question": "What is the phone number of Microsoft support in Germany?",
+      "answer": null,
+      "evidence": null,
+      "response": "I don't know. The search results cover MFA caller ID and default voice call numbers, how to configure phone call settings, troubleshooting SMS and voice call delivery, and what details to include when contacting Microsoft support, but they do not list a Microsoft support phone number for Germany.\n\nThe closest related item is the default MFA call number list, which includes numbers for Germany's neighbors but not Germany itself: | Austria | +43 6703062076 |[1]. That list is for MFA voice calls sent to users, not for contacting support, so it should not be used as a support number.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/authentication/howto-mfa-mfasettings#2",
+        "identity/authentication/howto-mfa-mfasettings#4",
+        "identity/authentication/troubleshoot-sspr-writeback#12",
+        "identity/authentication/troubleshoot-sspr#5",
+        "identity/authentication/troubleshoot-voice-call-sms#1"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 6683,
+      "output_tokens": 198,
+      "cost_usd": 0.0007673000000000001,
+      "retrieval_ms": 28.6,
+      "llm_ms": 1507.0,
+      "total_ms": 1535.7,
+      "verdict": "correct"
+    },
+    {
+      "id": "u05",
+      "question": "How do I set up a printer for a user with Intune?",
+      "answer": null,
+      "evidence": null,
+      "response": "I don't know. The search results cover Conditional Access device requirements, SSPR on the Windows sign-in screen, FIDO2 security key sign-in, and dynamic group rules for devices, but nothing about printer setup in Intune.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/conditional-access/policy-alt-all-users-compliant-hybrid-or-mfa#0",
+        "identity/authentication/howto-sspr-windows#1",
+        "identity/conditional-access/policy-all-users-device-compliance#0",
+        "identity/authentication/howto-authentication-passwordless-security-key-windows#2",
+        "identity/users/groups-dynamic-membership#7"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 9688,
+      "output_tokens": 78,
+      "cost_usd": 0.0010078,
+      "retrieval_ms": 30.0,
+      "llm_ms": 1196.3,
+      "total_ms": 1226.4,
+      "verdict": "correct"
+    },
+    {
+      "id": "u06",
+      "question": "How many euros per user per month does Microsoft Entra ID P2 cost?",
+      "answer": null,
+      "evidence": null,
+      "response": "I don't know. The search results cover assigning group access to apps, bulk user creation, using groups for SaaS app access, MFA registration and Conditional Access, and removing unmanaged accounts. They mention that Entra ID P1 or P2 licenses are required for some features, but they don't give any pricing.",
+      "answered": false,
+      "sources": [],
+      "retrieved": [
+        "identity/users/directory-overview-user-model#1",
+        "identity/users/users-bulk-add#0",
+        "identity/users/groups-saasapps#0",
+        "identity/authentication/howto-mfa-getstarted#2",
+        "identity/users/clean-up-unmanaged-accounts#0"
+      ],
+      "retrieved_evidence": false,
+      "cited_evidence": false,
+      "input_tokens": 7448,
+      "output_tokens": 272,
+      "cost_usd": 0.0008808,
+      "retrieval_ms": 32.6,
+      "llm_ms": 2013.5,
+      "total_ms": 2046.2,
+      "verdict": "correct"
+    }
+  ]
+}

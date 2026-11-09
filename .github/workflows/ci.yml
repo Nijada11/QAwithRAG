@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+      - run: pip install -r requirements-dev.txt
+      - run: ruff check .
+      - run: ruff format --check .
+      - run: pytest
+      - name: Eval set points at text that exists in the corpus
+        run: python -m evals.run_eval check
+
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t document-qa .
+      - name: Smoke test the image
+        run: |
+          docker run -d --name api -p 8000:8000 -e API_KEY=ci document-qa
+          for attempt in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/health; then
+              # /ask without a key must be refused, proving auth is on in the image.
+              test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:8000/ask \
+                -H 'Content-Type: application/json' -d '{"question":"test?"}')" = 401
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs api
+          exit 1
